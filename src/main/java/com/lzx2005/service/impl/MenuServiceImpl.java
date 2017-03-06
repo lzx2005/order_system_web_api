@@ -8,38 +8,36 @@ import com.lzx2005.enums.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
  * Created by Lizhengxian on 2017/3/6.
  */
+@Service
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
     DishRepository dishRepository;
 
     @Override
-    public ServiceResult<Dish> createDish(String name, double price, long image, long type, long belong) {
+    public ServiceResult<Dish> createDish(String name, double price, long logo, long type, long belong) {
         Dish dish = new Dish();
 
         dish.setName(name);
         dish.setPrice(price);
-        dish.setImage(image);
+        dish.setLog(logo);
         dish.setType(type);
         dish.setBelong(belong);
+        dish.setCreateTime(new Date());
 
         Dish save = dishRepository.save(dish);
-        if(save.getId()>0){
-            return new ServiceResult<Dish>()
-                    .setCode(ServiceStatus.SUCCESS.getCode())
-                    .setMsg(ServiceStatus.SUCCESS.getMsg());
-        }else{
-            return new ServiceResult<Dish>()
-                    .setCode(ServiceStatus.DB_ERROR.getCode())
-                    .setMsg(ServiceStatus.DB_ERROR.getMsg());
-        }
+        System.out.println(save);
+        return new ServiceResult<Dish>()
+                .setCode(ServiceStatus.SUCCESS.getCode())
+                .setMsg(ServiceStatus.SUCCESS.getMsg());
     }
 
     @Override
@@ -58,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ServiceResult<Page<Dish>> getDishes(int page) {
+    public ServiceResult<Page<Dish>> getDishAll(int page) {
         //分页查找
         Page<Dish> all = dishRepository.findAll(new PageRequest(page, 10));
 
@@ -75,11 +73,27 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public ServiceResult<Dish> removeDish(long id) {
-        return null;
+        dishRepository.delete(id);
+        return new ServiceResult<Dish>()
+                .setCode(ServiceStatus.DELETE_SUCCESS.getCode())
+                .setMsg(ServiceStatus.DELETE_SUCCESS.getMsg());
     }
 
     @Override
-    public ServiceResult<List<Dish>> getDishesByType(int page) {
-        return null;
+    public ServiceResult<Page<Dish>> getDishesByType(int page,long type) {
+
+        PageRequest pageRequest = new PageRequest(page, 10);
+        Page<Dish> dishes = dishRepository.findByType(pageRequest, type);
+
+        if(dishes!=null){
+            return new ServiceResult<Page<Dish>>()
+                    .setCode(ServiceStatus.SUCCESS.getCode())
+                    .setMsg(ServiceStatus.SUCCESS.getMsg())
+                    .setData(dishes);
+        }
+
+        return new ServiceResult<Page<Dish>>()
+                .setCode(ServiceStatus.DISH_IS_NOT_EXIST.getCode())
+                .setMsg(ServiceStatus.DISH_IS_NOT_EXIST.getMsg());
     }
 }

@@ -17,11 +17,11 @@ public interface MenuService {
     public ServiceResult<Dish> getDishById(long id);
 
 
-    public ServiceResult<Page<Dish>> getDishes(int page);
+    public ServiceResult<Page<Dish>> getDishAll(int page);
 
 
     public ServiceResult<Dish> removeDish(long id);
 
 
-    public ServiceResult<List<Dish>> getDishesByType(int page);
+    public ServiceResult<Page<Dish>> getDishesByType(int page,long type);
 }

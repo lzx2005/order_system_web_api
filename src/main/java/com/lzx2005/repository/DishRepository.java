@@ -1,13 +1,17 @@
 package com.lzx2005.repository;
 
 import com.lzx2005.entity.Dish;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 
 /**
  * Created by Lizhengxian on 2017/3/3.
  */
-public interface DishRepository extends PagingAndSortingRepository<Dish,String> {
+public interface DishRepository extends PagingAndSortingRepository<Dish,Long> {
 
-    public Dish findById(long id);
+    Dish findById(long id);
+
+    Page<Dish> findByType(Pageable pageable,long type);
 }

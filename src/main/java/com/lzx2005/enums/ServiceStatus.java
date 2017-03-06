@@ -12,6 +12,9 @@ public enum ServiceStatus {
     SERVICE_ERROR(-2,"服务器出错"),
     DB_ERROR(-3,"数据库操作出错"),
 
+    //数据库增删改
+    DELETE_SUCCESS(100,"删除成功"),
+
     //菜单相关
     DISH_IS_NOT_EXIST(10000,"无法找到菜品");
 

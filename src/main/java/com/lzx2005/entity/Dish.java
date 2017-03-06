@@ -26,7 +26,7 @@ public class Dish {
     private long belong;
 
     @Column
-    private long image;
+    private long logo;
 
     @Column
     private long type;
@@ -66,12 +66,12 @@ public class Dish {
         this.belong = belong;
     }
 
-    public long getImage() {
-        return image;
+    public long getLogo() {
+        return logo;
     }
 
-    public void setImage(long image) {
-        this.image = image;
+    public void setLog(long logo) {
+        this.logo = logo;
     }
 
     public Date getCreateTime() {
