@@ -1,10 +1,9 @@
 package com.lzx2005.controller;
 
 import com.lzx2005.dto.ServiceResult;
-import com.lzx2005.entity.Dish;
+import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -33,10 +32,21 @@ public class RestController {
                              @RequestParam(required = true) long logo,
                              @RequestParam(required = true) long type){
 
-        ServiceResult<Dish> dish = menuService.createDish(name, price, logo, type, belong);
+        ServiceResult dish = menuService.createDish(name, price, logo, type, belong);
         System.out.println(dish);
         return dish.toString();
 
+    }
+
+    @RequestMapping(value = "/dish/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteDish(HttpServletRequest request,
+                             @RequestParam(value = "dishId",defaultValue = "0",required = true)long dishId){
+        if(dishId<=0){
+            return ServiceResultEnum.NEED_PARAMS.toString();
+        }
+        ServiceResult serviceResult = menuService.removeDish(dishId);
+        return serviceResult.toString();
     }
 
 
@@ -44,7 +54,7 @@ public class RestController {
     @ResponseBody
     public String getDish(HttpServletRequest request,
                           @RequestParam(value = "page",required = false,defaultValue = "0") int page){
-        ServiceResult<Page<Dish>> dishes = menuService.getDishAll(page);
+        ServiceResult dishes = menuService.getDishAll(page);
         return dishes.toString();
     }
 

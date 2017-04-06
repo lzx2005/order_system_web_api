@@ -2,16 +2,15 @@ package com.lzx2005.service.impl;
 
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.entity.Dish;
+import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.DishRepository;
 import com.lzx2005.service.MenuService;
-import com.lzx2005.enums.ServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * Created by Lizhengxian on 2017/3/6.
@@ -23,7 +22,7 @@ public class MenuServiceImpl implements MenuService {
     DishRepository dishRepository;
 
     @Override
-    public ServiceResult<Dish> createDish(String name, double price, long logo, long type, long belong) {
+    public ServiceResult createDish(String name, double price, long logo, long type, long belong) {
         Dish dish = new Dish();
 
         dish.setName(name);
@@ -34,66 +33,47 @@ public class MenuServiceImpl implements MenuService {
         dish.setCreateTime(new Date());
 
         Dish save = dishRepository.save(dish);
-        System.out.println(save);
-        return new ServiceResult<Dish>()
-                .setCode(ServiceStatus.SUCCESS.getCode())
-                .setMsg(ServiceStatus.SUCCESS.getMsg());
+
+        if(save!=null){
+            return ServiceResultEnum.SUCCESS.toServiceResult();
+        }
+        return ServiceResultEnum.DB_ERROR.toServiceResult();
     }
 
     @Override
-    public ServiceResult<Dish> getDishById(long id) {
+    public ServiceResult getDishById(long id) {
         Dish dish = dishRepository.findById(id);
         if(dish!=null){
-            return new ServiceResult<Dish>()
-                    .setCode(ServiceStatus.SUCCESS.getCode())
-                    .setMsg(ServiceStatus.SUCCESS.getMsg())
-                    .setData(dish);
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(dish);
         }else{
-            return new ServiceResult<Dish>()
-                    .setCode(ServiceStatus.DISH_IS_NOT_EXIST.getCode())
-                    .setMsg(ServiceStatus.DISH_IS_NOT_EXIST.getMsg());
+            return ServiceResultEnum.DISH_IS_NOT_EXIST.toServiceResult();
         }
     }
 
     @Override
-    public ServiceResult<Page<Dish>> getDishAll(int page) {
+    public ServiceResult getDishAll(int page) {
         //分页查找
-        Page<Dish> all = dishRepository.findAll(new PageRequest(page, 10));
+        Page all = dishRepository.findAll(new PageRequest(page, 10));
 
         if(all!=null){
-            return new ServiceResult<Page<Dish>>()
-                    .setCode(ServiceStatus.SUCCESS.getCode())
-                    .setMsg(ServiceStatus.SUCCESS.getMsg())
-                    .setData(all);
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(all);
         }
-        return new ServiceResult<Page<Dish>>()
-                .setCode(ServiceStatus.DB_ERROR.getCode())
-                .setMsg(ServiceStatus.DB_ERROR.getMsg());
+        return ServiceResultEnum.DB_ERROR.toServiceResult();
     }
 
     @Override
-    public ServiceResult<Dish> removeDish(long id) {
+    public ServiceResult removeDish(long id) {
         dishRepository.delete(id);
-        return new ServiceResult<Dish>()
-                .setCode(ServiceStatus.DELETE_SUCCESS.getCode())
-                .setMsg(ServiceStatus.DELETE_SUCCESS.getMsg());
+        return ServiceResultEnum.SUCCESS.toServiceResult();
     }
 
     @Override
-    public ServiceResult<Page<Dish>> getDishesByType(int page,long type) {
-
+    public ServiceResult getDishesByType(int page,long type) {
         PageRequest pageRequest = new PageRequest(page, 10);
-        Page<Dish> dishes = dishRepository.findByType(pageRequest, type);
-
+        Page dishes = dishRepository.findByType(pageRequest, type);
         if(dishes!=null){
-            return new ServiceResult<Page<Dish>>()
-                    .setCode(ServiceStatus.SUCCESS.getCode())
-                    .setMsg(ServiceStatus.SUCCESS.getMsg())
-                    .setData(dishes);
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(dishes);
         }
-
-        return new ServiceResult<Page<Dish>>()
-                .setCode(ServiceStatus.DISH_IS_NOT_EXIST.getCode())
-                .setMsg(ServiceStatus.DISH_IS_NOT_EXIST.getMsg());
+        return ServiceResultEnum.DISH_IS_NOT_EXIST.toServiceResult();
     }
 }

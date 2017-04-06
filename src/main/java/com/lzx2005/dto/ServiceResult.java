@@ -9,16 +9,16 @@ import java.util.Map;
 /**
  * Created by Lizhengxian on 2017/3/3.
  */
-public class ServiceResult<T> {
+public class ServiceResult {
     int code;
     String msg;
-    T data;
+    Object data;
 
     public int getCode() {
         return code;
     }
 
-    public ServiceResult<T> setCode(int code) {
+    public ServiceResult setCode(int code) {
         this.code = code;
         return this;
     }
@@ -27,21 +27,21 @@ public class ServiceResult<T> {
         return msg;
     }
 
-    public ServiceResult<T> setMsg(String msg) {
+    public ServiceResult setMsg(String msg) {
         this.msg = msg;
         return this;
     }
 
-    public T getData() {
+    public Object getData() {
         return data;
     }
 
-    public ServiceResult<T> setData(T data) {
+    public ServiceResult setData(Object data) {
         this.data = data;
         return this;
     }
 
-    public ServiceResult<T> build(){
+    public ServiceResult build(){
         return this;
     }
 

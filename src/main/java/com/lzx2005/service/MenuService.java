@@ -11,17 +11,17 @@ import java.util.List;
  */
 public interface MenuService {
 
-    public ServiceResult<Dish> createDish(String name,double price,long image,long type,long belong);
+    public ServiceResult createDish(String name,double price,long image,long type,long belong);
 
 
-    public ServiceResult<Dish> getDishById(long id);
+    public ServiceResult getDishById(long id);
 
 
-    public ServiceResult<Page<Dish>> getDishAll(int page);
+    public ServiceResult getDishAll(int page);
 
 
-    public ServiceResult<Dish> removeDish(long id);
+    public ServiceResult removeDish(long id);
 
 
-    public ServiceResult<Page<Dish>> getDishesByType(int page,long type);
+    public ServiceResult getDishesByType(int page,long type);
 }
