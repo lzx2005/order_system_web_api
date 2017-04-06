@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService {
         if(StringTools.hasEmpty(username,password)){
             return ServiceResultEnum.NEED_PARAMS.toServiceResult();
         }
-        User user = userRepository.findByUsernameAndPassword(username, password);
+        User user = userRepository.findFirstByUsernameAndPassword(username, password);
         if(user!=null){
             user.setPassword("");
             String token = TokenTools.createToken(user.getUsername() + "," + user.getUserId());

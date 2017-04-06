@@ -12,6 +12,7 @@ public enum ServiceResultEnum {
     SERVICE_ERROR(-2,"服务器出错"),
     DB_ERROR(-3,"数据库操作出错"),
     NEED_PARAMS(-4,"缺少必要的参数"),
+    NEED_TOKEN(-5,"缺少token参数"),
 
     //数据库增删改
     DELETE_SUCCESS(100,"删除成功"),
