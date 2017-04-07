@@ -8,12 +8,8 @@ import com.lzx2005.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -35,7 +31,6 @@ public class OrderServiceImpl implements OrderService {
         order.put("orderId", orderId);
         order.put("createTime", LocalDateTime.now());
         order.put("orderStatus",1);
-        //mongoTemplate.insert(order,"order");
 
         mongoDao.createOrder(order);
         JSONObject jsonObject = mongoDao.findOrderByOrderId(orderId);
