@@ -20,7 +20,6 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getParameter("token");
-        System.out.println(true);
         if(StringTools.isEmpty(token)){
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/json;charset=utf-8");

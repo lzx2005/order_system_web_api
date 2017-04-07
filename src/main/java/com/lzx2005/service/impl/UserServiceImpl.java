@@ -5,6 +5,7 @@ import com.lzx2005.entity.User;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.UserRepository;
 import com.lzx2005.service.UserService;
+import com.lzx2005.tools.SecretTools;
 import com.lzx2005.tools.StringTools;
 import com.lzx2005.tools.TokenTools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,12 +25,35 @@ public class UserServiceImpl implements UserService {
         if(StringTools.hasEmpty(username,password)){
             return ServiceResultEnum.NEED_PARAMS.toServiceResult();
         }
-        User user = userRepository.findFirstByUsernameAndPassword(username, password);
-        if(user!=null){
-            user.setPassword("");
-            String token = TokenTools.createToken(user.getUsername() + "," + user.getUserId());
-            return ServiceResultEnum.SUCCESS.toServiceResult().setData(token);
+        User user = userRepository.findFirstByUsername(username);
+        if(user==null) {
+            return ServiceResultEnum.CANT_FIND_USER.toServiceResult();
+        }else {
+            String secrectInput = SecretTools.secrect(password, user.getUserId());
+            if(secrectInput.equals(user.getPassword())){
+                //密码正确
+                user.setPassword("");
+                String token = TokenTools.createToken(user.getUsername() + "," + user.getUserId());
+                return ServiceResultEnum.SUCCESS.toServiceResult().setData(token);
+            }else{
+                return ServiceResultEnum.WRONG_PASSWORD.toServiceResult();
+            }
         }
-        return ServiceResultEnum.WRONG_USERNAME_OR_PASSWORD.toServiceResult();
+    }
+
+    @Override
+    public ServiceResult resetPassword(int userId, String newPassword) {
+        User one = userRepository.findOne(userId);
+        if(one==null){
+            return ServiceResultEnum.CANT_FIND_USER.toServiceResult();
+        }
+        String secrectPassword = SecretTools.secrect(newPassword, userId);
+        one.setPassword(secrectPassword);
+        User save = userRepository.save(one);
+        if(save!=null){
+            save.setPassword("");
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(save);
+        }
+        return ServiceResultEnum.FAIL.toServiceResult();
     }
 }

@@ -21,6 +21,7 @@ public enum ServiceResultEnum {
     //用户相关
     LOGIN_FAILED(1000,"登录失败"),
     WRONG_USERNAME_OR_PASSWORD(1001,"账号或者密码错误"),
+    WRONG_PASSWORD(1003,"密码错误"),
     CANT_FIND_USER(1002,"找不到用户"),
 
     //菜单相关

@@ -35,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
         Dish save = dishRepository.save(dish);
 
         if(save!=null){
-            return ServiceResultEnum.SUCCESS.toServiceResult();
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(save);
         }
         return ServiceResultEnum.DB_ERROR.toServiceResult();
     }

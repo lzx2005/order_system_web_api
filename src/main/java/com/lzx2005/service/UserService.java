@@ -7,4 +7,6 @@ import com.lzx2005.dto.ServiceResult;
  */
 public interface UserService {
     ServiceResult login(String username,String password);
+
+    ServiceResult resetPassword(int userId,String newPassword);
 }

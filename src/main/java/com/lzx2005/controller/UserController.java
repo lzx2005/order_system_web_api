@@ -30,4 +30,15 @@ public class UserController {
         ServiceResult login = userService.login(username, password);
         return login.toString();
     }
+
+
+    @RequestMapping(value = "/resetPassword",method = RequestMethod.POST)
+    public String resetPassword(@RequestParam(value = "userId",defaultValue = "0") int userId,
+                                @RequestParam(value = "newPassword",defaultValue = "") String newPassword){
+        if(userId==0||StringTools.isEmpty(newPassword)){
+            return ServiceResultEnum.NEED_PARAMS.toString();
+        }
+        ServiceResult serviceResult = userService.resetPassword(userId,newPassword);
+        return serviceResult.toString();
+    }
 }
