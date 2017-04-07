@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 
 @Controller
-@RequestMapping("/rest")
+@RequestMapping(value = "/rest",produces = "application/json;charset=UTF-8")
 public class RestController {
 
     @Autowired
