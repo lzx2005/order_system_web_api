@@ -19,7 +19,7 @@ import java.util.Date;
 public class MenuServiceImpl implements MenuService {
 
     @Autowired
-    DishRepository dishRepository;
+    private DishRepository dishRepository;
 
     @Override
     public ServiceResult createDish(String name, double price, long logo, long type, long belong) {

@@ -1,10 +1,15 @@
 package com.lzx2005.dao;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lzx2005.entity.Dish;
+import com.mongodb.WriteResult;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -15,6 +20,7 @@ import java.util.List;
  */
 @Component
 public class MongoDao {
+    private static final Logger logger = LoggerFactory.getLogger(MongoDao.class);
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -47,5 +53,43 @@ public class MongoDao {
         return mongoTemplate.findOne(query, JSONObject.class, "order");
     }
 
+    public JSONObject addDishToOrder(String orderId, Dish dish){
+        Criteria criteria = Criteria.where("orderId").is(orderId);
+        Query query = Query.query(criteria);
+        Update update = new Update();
+        update.push("dishes",dish);
+        WriteResult order = mongoTemplate.upsert(query, update, "order");
+        logger.info("插入dish到order：result={},lastConcern={}",order,order.getLastConcern());
+        return null;
+    }
 
+    public JSONObject removeDishFromOrder(String orderId,JSONObject dish){
+        Criteria criteria = Criteria.where("orderId").is(orderId);
+        Query query = Query.query(criteria);
+        Update update = new Update();
+        update.pull("dishes",dish);
+        WriteResult order = mongoTemplate.upsert(query, update, "order");
+        logger.info("删除dish从order：result={},lastConcern={}",order,order.getLastConcern());
+        return null;
+    }
+
+    public JSONObject submitOrder(String orderId){
+        Criteria criteria = Criteria.where("orderId").is(orderId);
+        Query query = Query.query(criteria);
+        Update update = new Update();
+        update.set("orderStatus",3);
+        WriteResult order = mongoTemplate.upsert(query, update, "order");
+        logger.info("提交点菜：result={},lastConcern={}",order,order.getLastConcern());
+        return null;
+    }
+
+    public JSONObject cookFinish(String orderId){
+        Criteria criteria = Criteria.where("orderId").is(orderId);
+        Query query = Query.query(criteria);
+        Update update = new Update();
+        update.set("orderStatus",4);
+        WriteResult order = mongoTemplate.upsert(query, update, "order");
+        logger.info("上菜完成：result={},lastConcern={}",order,order.getLastConcern());
+        return null;
+    }
 }

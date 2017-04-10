@@ -25,7 +25,11 @@ public enum ServiceResultEnum {
     CANT_FIND_USER(1002,"找不到用户"),
 
     //菜单相关
-    DISH_IS_NOT_EXIST(10000,"无法找到菜品")
+    DISH_IS_NOT_EXIST(10000,"无法找到菜品"),
+
+    //订单相关
+    CANT_FIND_ORDER(11000,"找不到订单"),
+    ORDER_OVER(11001,"订单已经结束"),
     ;
     private int code;
     private String msg;

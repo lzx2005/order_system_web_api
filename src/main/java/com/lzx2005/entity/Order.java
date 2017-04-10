@@ -8,7 +8,6 @@ import java.util.Date;
 /**
  * Created by Lizhengxian on 2017/4/7.
  */
-@Deprecated
 @Entity
 @Table(name = "order")
 public class Order {

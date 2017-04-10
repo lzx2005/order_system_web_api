@@ -17,7 +17,7 @@ import java.util.Date;
 public class HelloController {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
 
     @RequestMapping(value = "/",method = RequestMethod.GET)
     @ResponseBody
