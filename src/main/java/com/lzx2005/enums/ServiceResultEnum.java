@@ -1,5 +1,7 @@
 package com.lzx2005.enums;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.lzx2005.dto.ServiceResult;
 
 /**
@@ -30,6 +32,7 @@ public enum ServiceResultEnum {
     //订单相关
     CANT_FIND_ORDER(11000,"找不到订单"),
     ORDER_OVER(11001,"订单已经结束"),
+    DISH_HAS_NO_MORE(11002,"该菜品已经删除完了"),
     ;
     private int code;
     private String msg;
@@ -48,6 +51,13 @@ public enum ServiceResultEnum {
 
     public String toString(){
         return this.toServiceResult().toString();
+    }
+
+    public JSONObject toJSONObject(){
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("code",code);
+        jsonObject.put("msg",msg);
+        return jsonObject;
     }
 
     public int getCode() {

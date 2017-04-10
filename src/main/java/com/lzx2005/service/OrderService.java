@@ -37,4 +37,9 @@ public interface OrderService {
      * 付款
      * */
     ServiceResult payOrder(String orderId);
+
+    /**
+     * 根据用户找到UserId
+     * */
+    ServiceResult findByUserId(int userId);
 }

@@ -5,6 +5,8 @@ import com.lzx2005.dto.Token;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.tools.StringTools;
 import com.lzx2005.tools.TokenTools;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -16,6 +18,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Component
 public class LoginInterceptor extends HandlerInterceptorAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -31,8 +35,12 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
         Token tokenVo = TokenTools.parseToken(token);
         if(tokenVo!=null&&tokenVo.getAccount()!=null&&tokenVo.getUserId()!=null){
             //通过验证
-            request.setAttribute("userId",tokenVo.getUserId());
-            request.setAttribute("username",tokenVo.getAccount());
+            String userId = tokenVo.getUserId();
+            String username = tokenVo.getAccount();
+            logger.info("token验证通过,userId={},username={}",userId,username);
+            int i = Integer.parseInt(userId);
+            request.setAttribute("userId",i);
+            request.setAttribute("username",username);
         }else{
             response.setCharacterEncoding("utf-8");
             response.setContentType("application/json;charset=utf-8");

@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -67,14 +68,11 @@ public class OrderServiceImpl implements OrderService {
         if(order==null){
             return ServiceResultEnum.CANT_FIND_ORDER.toServiceResult();
         }
-        JSONArray dishes = order.getJSONArray("dishes");
-        for(int i=0;i<dishes.size();i++){
-            JSONObject dish = dishes.getJSONObject(i);
-            Long id = dish.getLong("id");
-            if(id==dishId){
-                //删除当前的菜品
-                mongoDao.removeDishFromOrder(orderId,dish);
-            }
+
+        Dish dish = dishRepository.findOne(dishId);
+        JSONObject jsonObject = mongoDao.removeDishFromOrder(orderId, dish);
+        if(jsonObject!=null){
+            logger.info(jsonObject.toString());
         }
         return ServiceResultEnum.SUCCESS.toServiceResult();
     }
@@ -95,5 +93,11 @@ public class OrderServiceImpl implements OrderService {
     public ServiceResult payOrder(String orderId) {
         //todo 支付接口暂时不考虑
         return null;
+    }
+
+    @Override
+    public ServiceResult findByUserId(int userId) {
+        List<JSONObject> activityOrderByUserId = mongoDao.findActivityOrderByUserId(userId);
+        return ServiceResultEnum.SUCCESS.toServiceResult().setData(activityOrderByUserId);
     }
 }

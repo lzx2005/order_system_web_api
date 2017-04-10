@@ -2,6 +2,7 @@ package com.lzx2005.dao;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lzx2005.entity.Dish;
+import com.lzx2005.enums.ServiceResultEnum;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +33,7 @@ public class MongoDao {
     /**
      * 找到用户当前的订单
      * */
-    public List<JSONObject> findActivityOrderByUserId(String userId){
+    public List<JSONObject> findActivityOrderByUserId(int userId){
         ArrayList<Integer> activityStatus = new ArrayList<>();
         activityStatus.add(1);
         activityStatus.add(2);
@@ -57,19 +58,25 @@ public class MongoDao {
         Criteria criteria = Criteria.where("orderId").is(orderId);
         Query query = Query.query(criteria);
         Update update = new Update();
-        update.push("dishes",dish);
+        update.push("dishes",dish).inc("sum",1);
         WriteResult order = mongoTemplate.upsert(query, update, "order");
         logger.info("插入dish到order：result={},lastConcern={}",order,order.getLastConcern());
         return null;
     }
 
-    public JSONObject removeDishFromOrder(String orderId,JSONObject dish){
-        Criteria criteria = Criteria.where("orderId").is(orderId);
+    public JSONObject removeDishFromOrder(String orderId,Dish dish){
+        Criteria criteria = Criteria.where("orderId").is(orderId).and("dishes._id").is(dish.getId());
         Query query = Query.query(criteria);
-        Update update = new Update();
-        update.pull("dishes",dish);
-        WriteResult order = mongoTemplate.upsert(query, update, "order");
-        logger.info("删除dish从order：result={},lastConcern={}",order,order.getLastConcern());
+        List<JSONObject> order1 = mongoTemplate.find(query, JSONObject.class, "order");
+        if(order1.size()>0){
+            Update update = new Update();
+            update.pop("dishes", Update.Position.FIRST);
+            logger.info("删除语句：update={}",update);
+            WriteResult order = mongoTemplate.upsert(query, update, "order");
+            logger.info("删除dish从order：result={},lastConcern={}",order,order.getLastConcern());
+        }else{
+            return ServiceResultEnum.DISH_HAS_NO_MORE.toJSONObject();
+        }
         return null;
     }
 

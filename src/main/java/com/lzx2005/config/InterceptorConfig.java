@@ -23,7 +23,8 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
         logger.info("加载拦截器com.lzx2005.interceptors.LoginInterceptor");
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns(
-                        "/rest/**"
+                        "/rest/**",
+                        "/order/**"
                 )
                 .excludePathPatterns(
 
