@@ -30,3 +30,24 @@ var pagerScript = {
         return pager;
     }
 }
+
+var alertScript = {
+    createDish:function () {
+        swal({
+                title: "创建一个菜品",
+                showCancelButton: true,
+                closeOnConfirm: false,
+                text: 'A custom <input placeholder="sad"/> message.',
+                html: true
+            },
+            function(){
+                swal("Nice!", "You wrote: success");
+            });
+    },
+    editDish:function (dishId) {
+        
+    },
+    deleteDish:function (dishId) {
+        
+    }
+}

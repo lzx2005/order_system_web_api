@@ -21,6 +21,7 @@
     <!-- Custom styles for this template -->
     <link href="/bootstarp/console/css/dashboard.css" rel="stylesheet">
     <link href="/css/custom.css" rel="stylesheet">
+    <link href="/css/sweetalert.css" rel="stylesheet">
     <link type="text/css" href="/bootstarp/console/css/bootstrap-pagination.min.css" rel="stylesheet" />
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <script src="/bootstarp/console/js/ie-emulation-modes-warning.js"></script>
@@ -80,6 +81,7 @@
 <script src="/bootstarp/console/js/ie10-viewport-bug-workaround.js"></script>
 <script type="text/javascript" charset="utf-8" src="/bootstarp/console/js/bootstrap-pagination.min.js"></script>
 <script type="text/javascript" charset="utf-8" src="/js/custom.js"></script>
+<script type="text/javascript" charset="utf-8" src="/js/sweetalert.min.js"></script>
 
 
 </body>

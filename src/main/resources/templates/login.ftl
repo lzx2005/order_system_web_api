@@ -37,7 +37,7 @@
     <form class="form-signin" method="post" action="/console/login/sub">
         <h2 class="form-signin-heading">登录</h2>
         <#if result??>
-            <p style="color: #ff585f;">${(result.msg)!}</p>
+            <div class="alert alert-danger" role="alert">${(result.msg)!}</div>
         </#if>
         <label for="inputEmail" class="sr-only">用户名</label>
         <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
