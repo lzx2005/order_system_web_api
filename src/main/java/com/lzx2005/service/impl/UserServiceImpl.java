@@ -42,6 +42,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public ServiceResult consoleLogin(String username, String password) {
+        if(StringTools.hasEmpty(username,password)){
+            return ServiceResultEnum.NEED_PARAMS.toServiceResult();
+        }
+        User user = userRepository.findFirstByUsername(username);
+        if(user==null) {
+            return ServiceResultEnum.CANT_FIND_USER.toServiceResult();
+        }else {
+            String secrectInput = SecretTools.secrect(password, user.getUserId());
+            if(secrectInput.equals(user.getPassword())){
+                //密码正确
+                user.setPassword("");
+                return ServiceResultEnum.SUCCESS.toServiceResult().setData(user);
+            }else{
+                return ServiceResultEnum.WRONG_PASSWORD.toServiceResult();
+            }
+        }
+    }
+
+    @Override
     public ServiceResult resetPassword(int userId, String newPassword) {
         User one = userRepository.findOne(userId);
         if(one==null){

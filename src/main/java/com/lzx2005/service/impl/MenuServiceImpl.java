@@ -22,12 +22,12 @@ public class MenuServiceImpl implements MenuService {
     private DishRepository dishRepository;
 
     @Override
-    public ServiceResult createDish(String name, double price, long logo, long type, long belong) {
+    public ServiceResult createDish(String name, double price, long logo, long type, int belong) {
         Dish dish = new Dish();
 
         dish.setName(name);
         dish.setPrice(price);
-        dish.setLog(logo);
+        dish.setLogo(logo);
         dish.setType(type);
         dish.setBelong(belong);
         dish.setCreateTime(new Date());
@@ -54,7 +54,16 @@ public class MenuServiceImpl implements MenuService {
     public ServiceResult getDishAll(int page) {
         //分页查找
         Page all = dishRepository.findAll(new PageRequest(page, 10));
+        if(all!=null){
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(all);
+        }
+        return ServiceResultEnum.DB_ERROR.toServiceResult();
+    }
 
+    @Override
+    public ServiceResult getDishAllByUserId(int page, int userId) {
+
+        Page<Dish> all = dishRepository.findAllByBelong(new PageRequest(page, 10), userId);
         if(all!=null){
             return ServiceResultEnum.SUCCESS.toServiceResult().setData(all);
         }

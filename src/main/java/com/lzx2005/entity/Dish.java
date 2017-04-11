@@ -23,7 +23,7 @@ public class Dish {
     private double price;
 
     @Column
-    private long belong;
+    private int belong;
 
     @Column
     private long logo;
@@ -58,19 +58,20 @@ public class Dish {
         this.price = price;
     }
 
-    public long getBelong() {
+    public int getBelong() {
         return belong;
     }
 
-    public void setBelong(long belong) {
+    public void setBelong(int belong) {
         this.belong = belong;
     }
+
 
     public long getLogo() {
         return logo;
     }
 
-    public void setLog(long logo) {
+    public void setLogo(long logo) {
         this.logo = logo;
     }
 

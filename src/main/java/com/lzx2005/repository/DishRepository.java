@@ -16,4 +16,6 @@ public interface DishRepository extends PagingAndSortingRepository<Dish,Long> {
     Dish findById(long id);
 
     Page<Dish> findByType(Pageable pageable,long type);
+
+    Page<Dish> findAllByBelong(Pageable pageable,int belong);
 }

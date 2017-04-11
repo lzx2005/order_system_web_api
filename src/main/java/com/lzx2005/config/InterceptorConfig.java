@@ -1,5 +1,6 @@
 package com.lzx2005.config;
 
+import com.lzx2005.interceptors.ConsoleLoginInterceptor;
 import com.lzx2005.interceptors.LoginInterceptor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,11 +17,13 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
     private static final Logger logger = LoggerFactory.getLogger(InterceptorConfig.class);
 
     @Autowired
-    LoginInterceptor loginInterceptor;
+    private LoginInterceptor loginInterceptor;
 
+    @Autowired
+    private ConsoleLoginInterceptor consoleLoginInterceptor;
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        logger.info("加载拦截器com.lzx2005.interceptors.LoginInterceptor");
+        logger.info("加载拦截器"+loginInterceptor.getClass().getName());
         registry.addInterceptor(loginInterceptor)
                 .addPathPatterns(
                         "/rest/**",
@@ -28,6 +31,17 @@ public class InterceptorConfig extends WebMvcConfigurerAdapter {
                 )
                 .excludePathPatterns(
 
+                )
+        ;
+        logger.info("加载拦截器"+consoleLoginInterceptor.getClass().getName());
+        registry.addInterceptor(consoleLoginInterceptor)
+                .addPathPatterns(
+                        "/console/**"
+                )
+                .excludePathPatterns(
+                        "/console/login",
+                        "/console/logout",
+                        "/console/login/sub"
                 )
         ;
     }
