@@ -25,7 +25,7 @@ public class RestController {
     private static final Logger logger = LoggerFactory.getLogger(RestController.class);
 
     @Autowired
-    MenuService menuService;
+    private MenuService menuService;
 
     @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
     @ResponseBody

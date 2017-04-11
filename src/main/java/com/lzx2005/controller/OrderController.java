@@ -21,7 +21,7 @@ import java.util.List;
 public class OrderController {
 
     @Autowired
-    OrderService orderService;
+    private OrderService orderService;
 
     @RequestMapping(value = "/create",method = RequestMethod.POST)
     @ResponseBody
