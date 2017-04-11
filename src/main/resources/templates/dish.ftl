@@ -19,7 +19,7 @@
                     <tr>
                         <td>${(x.id)}</td>
                         <td>${(x.name)}</td>
-                        <td>${(x.price)}</td>
+                        <td>${(x.price)}元</td>
                         <td>${(x.type)}</td>
                         <td>${(x.createTime)}</td>
                         <td>
@@ -48,7 +48,6 @@
 <script type="text/javascript">
     $(function () {
         var dishes = ${dishes};
-        //console.log(total);
         var total = dishes.data.totalElements;
         var page = dishes.data.number;
         pagerScript.createDishPager("#pager",total,page);

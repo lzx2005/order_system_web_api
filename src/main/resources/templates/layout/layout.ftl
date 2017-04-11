@@ -10,7 +10,7 @@
     <meta name="author" content="">
     <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
 
-    <title>Dashboard Template for Bootstrap</title>
+    <title>这是一个后台</title>
 
     <!-- Bootstrap core CSS -->
     <link href="/bootstarp/console/css/bootstrap.min.css" rel="stylesheet">
@@ -20,6 +20,7 @@
 
     <!-- Custom styles for this template -->
     <link href="/bootstarp/console/css/dashboard.css" rel="stylesheet">
+    <link href="/css/custom.css" rel="stylesheet">
     <link type="text/css" href="/bootstarp/console/css/bootstrap-pagination.min.css" rel="stylesheet" />
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <script src="/bootstarp/console/js/ie-emulation-modes-warning.js"></script>

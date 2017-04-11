@@ -35,7 +35,7 @@
 <div class="container">
 
     <form class="form-signin" method="post" action="/console/login/sub">
-        <h2 class="form-signin-heading">登陆</h2>
+        <h2 class="form-signin-heading">登录</h2>
         <#if result??>
             <p style="color: #ff585f;">${(result.msg)!}</p>
         </#if>
@@ -43,7 +43,7 @@
         <input type="text" id="username" name="username" class="form-control" placeholder="Username" required="" autofocus="">
         <label for="inputPassword" class="sr-only">密码</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Password" required="">
-        <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
     </form>
 
 </div> <!-- /container -->
