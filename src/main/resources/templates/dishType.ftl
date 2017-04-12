@@ -25,9 +25,9 @@
                     <tr>
                         <td>${(x.typeId)!}</td>
                         <td>${(x.typeName)!}</td>
+                        <td>${(x.createTime)!}</td>
                         <td>
-                            <button type="button" class="btn btn-primary">编辑</button>
-                            <button type="button" class="btn btn-danger">删除</button>
+                            <button type="button" class="btn btn-danger" onclick="dishTypeScript.deleteDishType(${(x.typeId)!})">删除</button>
                         </td>
                     </tr>
                 </#list>
@@ -69,7 +69,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary">
+                <button type="button" class="btn btn-primary" onclick="dishTypeScript.dishTypeCreateSubmit()">
                     提交
                 </button>
             </div>

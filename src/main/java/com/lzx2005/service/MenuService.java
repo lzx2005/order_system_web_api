@@ -25,7 +25,7 @@ public interface MenuService {
 
     ServiceResult createDishType(String typeName,int belong);
 
-    ServiceResult removeDishType(int typeId);
+    ServiceResult removeDishType(int typeId,int userId);
 
     ServiceResult getAllDishTypeByUserId(int page,int userId);
 }

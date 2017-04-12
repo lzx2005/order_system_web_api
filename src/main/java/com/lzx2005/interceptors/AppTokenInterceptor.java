@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
  * Created by Lizhengxian on 2017/4/6.
  */
 @Component
-public class LoginInterceptor extends HandlerInterceptorAdapter {
-    private static final Logger logger = LoggerFactory.getLogger(LoginInterceptor.class);
+public class AppTokenInterceptor extends HandlerInterceptorAdapter {
+    private static final Logger logger = LoggerFactory.getLogger(AppTokenInterceptor.class);
 
 
     @Override

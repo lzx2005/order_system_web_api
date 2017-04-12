@@ -12,7 +12,6 @@
     });
 });*/
 
-
 var pagerScript = {
     createDishPager:function (pageContainer,total,pageIndex) {
         var pager = BootstrapPagination($(pageContainer), {
@@ -49,5 +48,79 @@ var alertScript = {
     },
     deleteDish:function (dishId) {
         
+    }
+}
+
+var dishTypeScript = {
+    dishTypeCreateSubmit:function () {
+        var typeName = $("#name").val();
+        if(typeName.length>0){
+            dishTypeScript.createDishType(typeName)
+        }else{
+            alert("请输入类型名称");
+        }
+    },
+    createDishType:function (typeName) {
+        console.log(typeName);
+        $.post("/console/rest/dishType/create", {
+                typeName: typeName
+            },
+            function (data) {
+                if(data['code']==0){
+                    console.log("成功");
+                    window.location.reload();
+                }else{
+                    console.log("失败");
+                    alert(data['msg']);
+                }
+            }
+        );
+    },
+    deleteDishType:function (typeId) {
+        swal({
+            title: "确认删除?",
+            text: "确认删除这个类型吗？删除后无法恢复",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: "删除",
+            cancelButtonText:"取消",
+            closeOnConfirm: false
+        },
+        function(){
+            $.post("/console/rest/dishType/delete", {
+                    typeId: typeId
+                },
+                function (data) {
+                    if(data['code']==0){
+                        console.log("成功");
+                        swal({
+                            title: "删除成功",
+                            text: "删除成功！",
+                            type: "success",
+                            confirmButtonText: "确定",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.reload();
+                        });
+                    }else{
+                        console.log("失败");
+                        swal({
+                            title: "删除失败",
+                            text: "删除失败！"+data['msg'],
+                            type: "error",
+                            confirmButtonText: "确定",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                        });
+                    }
+                }
+            );
+        });
+
+
+
     }
 }

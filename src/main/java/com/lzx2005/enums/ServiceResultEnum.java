@@ -17,6 +17,7 @@ public enum ServiceResultEnum {
     NEED_TOKEN(-5,"缺少token参数"),
     PARSE_TOKEN_ERROR(-6,"解析Token出错，请检查token格式"),
     WRONG_PAGE_NUMBER(-7,"页码小于1"),
+    NEED_LOGIN(-8,"需要登录"),
 
     //数据库增删改
     DELETE_SUCCESS(100,"删除成功"),
@@ -29,11 +30,13 @@ public enum ServiceResultEnum {
 
     //菜单相关
     DISH_IS_NOT_EXIST(10000,"无法找到菜品"),
+    CANT_DELETE_NOT_BELONG_YOU_TYPE(10001,"不能删除不属于你的类型"),
 
     //订单相关
     CANT_FIND_ORDER(11000,"找不到订单"),
     ORDER_OVER(11001,"订单已经结束"),
     DISH_HAS_NO_MORE(11002,"该菜品已经删除完了"),
+
     ;
     private int code;
     private String msg;

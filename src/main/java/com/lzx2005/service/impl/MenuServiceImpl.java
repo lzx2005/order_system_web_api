@@ -107,9 +107,14 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public ServiceResult removeDishType(int typeId) {
-        dishTypeRepository.delete(typeId);
-        return ServiceResultEnum.SUCCESS.toServiceResult();
+    public ServiceResult removeDishType(int typeId,int userId) {
+        DishType one = dishTypeRepository.findOne(typeId);
+        if(one.getBelong()==userId){
+            dishTypeRepository.delete(one);
+            return ServiceResultEnum.SUCCESS.toServiceResult();
+        }else{
+            return ServiceResultEnum.CANT_DELETE_NOT_BELONG_YOU_TYPE.toServiceResult();
+        }
     }
 
     @Override
