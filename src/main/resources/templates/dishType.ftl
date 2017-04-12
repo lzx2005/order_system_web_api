@@ -1,13 +1,11 @@
 <#include "layout/layout.ftl"/>
 <@layout>
-    <h1 class="page-header">我的菜单</h1>
+    <h1 class="page-header">我的菜品类型</h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th>#</th>
-                <th>名称</th>
-                <th>价格</th>
                 <th>类型</th>
                 <th>创建时间</th>
                 <th>操作</th>
@@ -18,20 +16,15 @@
                 <td>-</td>
                 <td>-</td>
                 <td>-</td>
-                <td>-</td>
-                <td>-</td>
                 <td>
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createDishModal">添加一个菜品</button>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createDishTypeModal">添加一个菜品类型</button>
                 </td>
             </tr>
-            <#if dishes??&&dishes.data.numberOfElements gt 0>
-                <#list dishes.data.content as x>
+            <#if dishTypes??&&dishTypes.data.numberOfElements gt 0>
+                <#list dishTypes.data.content as x>
                     <tr>
-                        <td>${(x.id)}</td>
-                        <td>${(x.name)}</td>
-                        <td>${(x.price)}元</td>
-                        <td>${(x.type)}</td>
-                        <td>${(x.createTime)}</td>
+                        <td>${(x.typeId)!}</td>
+                        <td>${(x.typeName)!}</td>
                         <td>
                             <button type="button" class="btn btn-primary">编辑</button>
                             <button type="button" class="btn btn-danger">删除</button>
@@ -40,8 +33,6 @@
                 </#list>
             <#else>
                 <tr>
-                    <td>-</td>
-                    <td>-</td>
                     <td>-</td>
                     <td>-</td>
                     <td>-</td>
@@ -57,7 +48,7 @@
     </div>
 
 
-<div class="modal fade" id="createDishModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="createDishTypeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -65,17 +56,13 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    添加一个菜品
+                    添加一个菜品类型
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">名称</label>
                     <input type="text" class="form-control" id="name" placeholder="名称">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">价格</label>
-                    <input type="text" class="form-control" id="price" placeholder="价格">
                 </div>
             </div>
             <div class="modal-footer">
@@ -91,9 +78,9 @@
 </div>
 <script type="text/javascript">
     $(function () {
-        var dishes = ${dishes};
-        var total = dishes.data.totalElements;
-        var page = dishes.data.number;
+        var dishTypes = ${dishTypes};
+        var total = dishTypes.data.totalElements;
+        var page = dishTypes.data.number;
         pagerScript.createDishPager("#pager",total,page);
     });
 </script>

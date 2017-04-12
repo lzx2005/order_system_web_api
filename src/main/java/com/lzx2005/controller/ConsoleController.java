@@ -46,6 +46,20 @@ public class ConsoleController {
         return "dish";
     }
 
+
+    @RequestMapping(value = "/dishType",method = RequestMethod.GET)
+    public String dishType(@RequestParam(value = "page",defaultValue = "0")int page,
+                       HttpServletRequest request,
+                       Model model){
+        User user = (User) request.getAttribute("user");
+        if(page<0){
+            page=0;
+        }
+        ServiceResult serviceResult = menuService.getAllDishTypeByUserId(page, user.getUserId());
+        model.addAttribute("dishTypes",serviceResult);
+        return "dishType";
+    }
+
     @RequestMapping(value = "/login",method = RequestMethod.GET)
     public String login(){
         return "login";

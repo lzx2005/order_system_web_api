@@ -13,9 +13,7 @@ public interface MenuService {
 
     ServiceResult createDish(String name,double price,long image,long type,int belong);
 
-
     ServiceResult getDishById(long id);
-
 
     ServiceResult getDishAll(int page);
 
@@ -23,6 +21,11 @@ public interface MenuService {
 
     ServiceResult removeDish(long id);
 
-
     ServiceResult getDishesByType(int page,long type);
+
+    ServiceResult createDishType(String typeName,int belong);
+
+    ServiceResult removeDishType(int typeId);
+
+    ServiceResult getAllDishTypeByUserId(int page,int userId);
 }
