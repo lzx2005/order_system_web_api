@@ -69,7 +69,7 @@
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary" onclick="dishTypeScript.dishTypeCreateSubmit()">
+                <button type="button" class="btn btn-primary" onclick="dishTypeScript.dishTypeCreateSubmit(this)">
                     提交
                 </button>
             </div>
@@ -81,7 +81,7 @@
         var dishTypes = ${dishTypes};
         var total = dishTypes.data.totalElements;
         var page = dishTypes.data.number;
-        pagerScript.createDishPager("#pager",total,page);
+        pagerScript.createDishTypePager("#pager",total,page);
     });
 </script>
 </@layout>

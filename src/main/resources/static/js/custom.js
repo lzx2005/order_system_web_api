@@ -27,6 +27,21 @@ var pagerScript = {
             },
         });
         return pager;
+    },
+    createDishTypePager:function (pageContainer,total,pageIndex) {
+        var pager = BootstrapPagination($(pageContainer), {
+            layoutScheme: "firstpage,prevpage,pagenumber,nextpage,lastpage,righttext",
+            //记录总数。
+            total: total,
+            pageSize: 10,
+            //当前页索引编号。从其开始（从0开始）的整数。
+            pageIndex: pageIndex,
+            //当分页更改后引发此事件。
+            pageChanged: function (pageIndex, pageSize) {
+                window.location.href = "/console/dishType?page="+pageIndex;
+            },
+        });
+        return pager;
     }
 }
 
@@ -52,11 +67,13 @@ var alertScript = {
 }
 
 var dishTypeScript = {
-    dishTypeCreateSubmit:function () {
+    dishTypeCreateSubmit:function (e) {
+        $(e).attr("disabled","");
         var typeName = $("#name").val();
         if(typeName.length>0){
             dishTypeScript.createDishType(typeName)
         }else{
+            $(e).removeAttr("disabled");
             alert("请输入类型名称");
         }
     },
