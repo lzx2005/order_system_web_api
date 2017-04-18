@@ -23,7 +23,7 @@ var pagerScript = {
             pageIndex: pageIndex,
             //当分页更改后引发此事件。
             pageChanged: function (pageIndex, pageSize) {
-                alert("page changed. pageIndex:" + pageIndex + ",pageSize:" + pageSize)
+                window.location.href = "/console/dish?page="+pageIndex;
             },
         });
         return pager;

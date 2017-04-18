@@ -1,10 +1,8 @@
 package com.lzx2005.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lizhengxian on 2017/4/12.
@@ -14,6 +12,7 @@ import java.util.Date;
 @Table(name = "dish_type")
 public class DishType {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int typeId;
     @Column
     private String typeName;

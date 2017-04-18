@@ -23,6 +23,17 @@ public class ConsoleRestController {
     @Autowired
     private MenuService menuService;
 
+
+    @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
+    @ResponseBody
+    public String createDish(@RequestParam("typeId")int typeId,
+                                 HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        ServiceResult serviceResult = menuService.removeDishType(typeId, user.getUserId());
+        return serviceResult.toString();
+    }
+
+
     @RequestMapping(value = "/dishType/create",method = RequestMethod.POST)
     @ResponseBody
     public String createDishType(@RequestParam("typeName")String typeName,

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lzx2005.dao.DishDao">
+
+    <select id="findById" resultType="com.lzx2005.entity.Dish" parameterType="java.lang.Long">
+        select * from dish where id = #{id}
+    </select>
+
+    <select id="findByBelongLeftJoinDishType" resultType="java.util.Map" parameterType="java.lang.Integer">
+        select
+          d.id,
+          d.name,
+          d.price,
+          d.belong,
+          d.create_time,
+          d.logo,
+          d.type,
+          dt.type_name
+        from
+          dish as d
+        left join
+          dish_type as dt
+        on
+          dt.type_id=d.type
+        where
+          d.belong = #{belong}
+    </select>
+</mapper>

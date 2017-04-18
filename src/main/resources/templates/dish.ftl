@@ -24,14 +24,14 @@
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#createDishModal">添加一个菜品</button>
                 </td>
             </tr>
-            <#if dishes??&&dishes.data.numberOfElements gt 0>
-                <#list dishes.data.content as x>
+            <#if dishes??&&dishes.data.size gt 0>
+                <#list dishes.data.list as x>
                     <tr>
-                        <td>${(x.id)}</td>
-                        <td>${(x.name)}</td>
-                        <td>${(x.price)}元</td>
-                        <td>${(x.type)}</td>
-                        <td>${(x.createTime)}</td>
+                        <td>${(x.id)!}</td>
+                        <td>${(x.name)!}</td>
+                        <td>${(x.price)!}元</td>
+                        <td>${(x.type_name)!}</td>
+                        <td>${(x.createTime)!}</td>
                         <td>
                             <button type="button" class="btn btn-primary">编辑</button>
                             <button type="button" class="btn btn-danger">删除</button>
@@ -92,8 +92,8 @@
 <script type="text/javascript">
     $(function () {
         var dishes = ${dishes};
-        var total = dishes.data.totalElements;
-        var page = dishes.data.number;
+        var total = dishes.data.total;
+        var page = dishes.data.pageNum;
         pagerScript.createDishPager("#pager",total,page);
     });
 </script>

@@ -35,8 +35,7 @@ public class RestController {
                              @RequestParam(required = true) long logo,
                              @RequestParam(required = true) long type){
 
-        String userIdString = (String)request.getAttribute("userId");
-        int userId = Integer.parseInt(userIdString);
+        int userId = (int)request.getAttribute("userId");
         ServiceResult dish = menuService.createDish(name, price, logo, type, userId);
         logger.info(dish.toString());
         return dish.toString();

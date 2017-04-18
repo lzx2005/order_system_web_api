@@ -25,7 +25,7 @@ public class HelloController {
         User user = new User();
         user.setUsername("lzx2005");
         user.setPassword("test");
-        userRepository.save(user);
+        //userRepository.save(user);
         return "hello,"+new Date();
     }
 

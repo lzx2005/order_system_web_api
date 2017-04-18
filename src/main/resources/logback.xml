@@ -31,7 +31,7 @@
 			<pattern>%d [%t] %5p \(%F-%M:%L\) - %m%n</pattern>
 		</encoder>
 	</appender>
-	<logger name="com.tairan.cloud.whale.wisdom" level="info" />
+	<logger name="com.lzx2005" level="info" />
 	<root level="info">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="FILEOUT" />

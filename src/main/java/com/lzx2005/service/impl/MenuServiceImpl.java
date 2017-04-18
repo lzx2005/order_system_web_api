@@ -1,5 +1,8 @@
 package com.lzx2005.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.lzx2005.dao.DishDao;
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.entity.Dish;
 import com.lzx2005.entity.DishType;
@@ -7,13 +10,19 @@ import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.DishRepository;
 import com.lzx2005.repository.DishTypeRepository;
 import com.lzx2005.service.MenuService;
+import org.hibernate.jpa.criteria.expression.function.BasicFunctionExpression;
+import org.hibernate.jpa.internal.metamodel.SingularAttributeImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.criteria.*;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Lizhengxian on 2017/3/6.
@@ -26,6 +35,9 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private DishTypeRepository dishTypeRepository;
+
+    @Autowired
+    private DishDao dishDao;
 
     @Override
     public ServiceResult createDish(String name, double price, long logo, long type, int belong) {
@@ -68,13 +80,12 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public ServiceResult getDishAllByUserId(int page, int userId) {
+        //Page<Dish> all = dishRepository.findAllByBelong(new PageRequest(page, 10), userId);
 
-        Page<Dish> all = dishRepository.findAllByBelong(new PageRequest(page, 10), userId);
-        if(all!=null){
-            return ServiceResultEnum.SUCCESS.toServiceResult().setData(all);
-        }else{
-            return ServiceResultEnum.DB_ERROR.toServiceResult();
-        }
+        PageHelper.startPage(page, 10);
+        List<Map<String,Object>> list = dishDao.findByBelongLeftJoinDishType(userId);
+        PageInfo pageInfo=new PageInfo(list);
+        return ServiceResultEnum.SUCCESS.toServiceResult().setData(pageInfo);
     }
 
     @Override
