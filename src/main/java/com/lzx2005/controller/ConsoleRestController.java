@@ -30,14 +30,13 @@ public class ConsoleRestController {
     @ResponseBody
     public String createDish(@RequestParam(defaultValue = "",required = true) String name,
                              @RequestParam(defaultValue = "",required = true) double price,
-                             @RequestParam(defaultValue = "",required = true) long image,
                              @RequestParam(defaultValue = "",required = true) long type,
                              HttpServletRequest request){
-        if(StringTools.hasEmpty(name,price+"",image+"",type+"")){
+        if(StringTools.hasEmpty(name,price+"",type+"")){
             return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
         }
         User user = (User) request.getAttribute("user");
-        ServiceResult serviceResult = menuService.createDish(name,price,image,type,user.getUserId());
+        ServiceResult serviceResult = menuService.createDish(name,price,0,type,user.getUserId());
         return serviceResult.toString();
     }
 

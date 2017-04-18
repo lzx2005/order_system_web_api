@@ -46,30 +46,55 @@ var pagerScript = {
 }
 
 var alertScript = {
-    createDish:function () {
-        swal({
-                title: "创建一个菜品",
-                showCancelButton: true,
-                closeOnConfirm: false,
-                text: 'A custom <input placeholder="sad"/> message.',
-                html: true
-            },
-            function(){
-                swal("Nice!", "You wrote: success");
-            });
-    },
-    editDish:function (dishId) {
-        
-    },
-    deleteDish:function (dishId) {
+    alert:function (str) {
         
     }
 }
 
 
-var dishTypeScript = {
+var dishScript = {
     dishCreateSubmit:function (e) {
-        
+        $(e).attr("disabled","");
+        var name = $("#name").val();
+        var price = $("#price").val();
+        var type = $("#dishTypeSelect").val();
+        if(isNaN(price)){
+            swal("价格必须是数字！");
+            $(e).removeAttr("disabled");
+            return;
+        }
+        if(name.length>0&&type>0){
+            dishScript.createDish(name,price,type)
+        }else{
+            $(e).removeAttr("disabled");
+            swal("请输入类型名称");
+        }
+    },
+    createDish:function (name,price,type) {
+        $.post("/console/rest/dish/create", {
+                name: name,
+                price: price,
+                type: type
+            },
+            function (data) {
+                if(data['code']==0){
+                    console.log("成功");
+                    swal({
+                            title: "创建成功",
+                            text: "创建成功！",
+                            type: "success",
+                            confirmButtonText: "确定",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.reload();
+                        });
+                }else{
+                    console.log("失败");
+                    swal(data['msg']);
+                }
+            }
+        );
     }
 }
 
@@ -81,7 +106,7 @@ var dishTypeScript = {
             dishTypeScript.createDishType(typeName)
         }else{
             $(e).removeAttr("disabled");
-            alert("请输入类型名称");
+            swal("请输入类型名称");
         }
     },
     createDishType:function (typeName) {
