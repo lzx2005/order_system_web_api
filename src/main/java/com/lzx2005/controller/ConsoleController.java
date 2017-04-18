@@ -42,7 +42,7 @@ public class ConsoleController {
             page=0;
         }
         ServiceResult serviceResult = menuService.getDishAllByUserId(page, user.getUserId());
-        System.out.println(serviceResult.toString());
+        //System.out.println(serviceResult.toString());
         model.addAttribute("dishes",serviceResult);
         return "dish";
     }

@@ -81,10 +81,11 @@ public class MenuServiceImpl implements MenuService {
     @Override
     public ServiceResult getDishAllByUserId(int page, int userId) {
         //Page<Dish> all = dishRepository.findAllByBelong(new PageRequest(page, 10), userId);
-
+        page=page+1;
         PageHelper.startPage(page, 10);
         List<Map<String,Object>> list = dishDao.findByBelongLeftJoinDishType(userId);
         PageInfo pageInfo=new PageInfo(list);
+        pageInfo.setPageNum(pageInfo.getPageNum()-1);
         return ServiceResultEnum.SUCCESS.toServiceResult().setData(pageInfo);
     }
 

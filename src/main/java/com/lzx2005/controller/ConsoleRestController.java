@@ -2,8 +2,10 @@ package com.lzx2005.controller;
 
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.entity.User;
+import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.MenuService;
 import com.lzx2005.service.UserService;
+import com.lzx2005.tools.StringTools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
@@ -26,13 +28,32 @@ public class ConsoleRestController {
 
     @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
     @ResponseBody
-    public String createDish(@RequestParam("typeId")int typeId,
-                                 HttpServletRequest request){
+    public String createDish(@RequestParam(defaultValue = "",required = true) String name,
+                             @RequestParam(defaultValue = "",required = true) double price,
+                             @RequestParam(defaultValue = "",required = true) long image,
+                             @RequestParam(defaultValue = "",required = true) long type,
+                             HttpServletRequest request){
+        if(StringTools.hasEmpty(name,price+"",image+"",type+"")){
+            return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
+        }
         User user = (User) request.getAttribute("user");
-        ServiceResult serviceResult = menuService.removeDishType(typeId, user.getUserId());
+        ServiceResult serviceResult = menuService.createDish(name,price,image,type,user.getUserId());
         return serviceResult.toString();
     }
 
+
+    @RequestMapping(value = "/dish/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteDish(@RequestParam("dishId")long dishId){
+        //todo 删除菜品
+        return null;
+    }
+
+    @RequestMapping(value = "/dishType/getAllMyDishType",method = RequestMethod.GET)
+    @ResponseBody
+    public String getAllMyDishType(){
+        return null;
+    }
 
     @RequestMapping(value = "/dishType/create",method = RequestMethod.POST)
     @ResponseBody
