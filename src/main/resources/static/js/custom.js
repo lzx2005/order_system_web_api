@@ -66,6 +66,13 @@ var alertScript = {
     }
 }
 
+
+var dishTypeScript = {
+    dishCreateSubmit:function (e) {
+        
+    }
+}
+
 var dishTypeScript = {
     dishTypeCreateSubmit:function (e) {
         $(e).attr("disabled","");

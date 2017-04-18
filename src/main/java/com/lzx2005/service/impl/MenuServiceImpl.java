@@ -137,4 +137,13 @@ public class MenuServiceImpl implements MenuService {
         }
         return ServiceResultEnum.DB_ERROR.toServiceResult();
     }
+
+    @Override
+    public ServiceResult getAllDishTypeByUserId(int userId) {
+        List<DishType> byBelong = dishTypeRepository.findByBelong(userId);
+        if(byBelong!=null){
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(byBelong);
+        }
+        return ServiceResultEnum.DB_ERROR.toServiceResult();
+    }
 }

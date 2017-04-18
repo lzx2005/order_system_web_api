@@ -31,7 +31,7 @@
                         <td>${(x.name)!}</td>
                         <td>${(x.price)!}元</td>
                         <td>${(x.type_name)!}</td>
-                        <td>${(x.createTime)!}</td>
+                        <td>${(x.create_time)!}</td>
                         <td>
                             <button type="button" class="btn btn-primary">编辑</button>
                             <button type="button" class="btn btn-danger">删除</button>
@@ -77,6 +77,13 @@
                     <label for="exampleInputPassword1">价格</label>
                     <input type="text" class="form-control" id="price" placeholder="价格">
                 </div>
+
+                <div class="form-group">
+                    <label for="name">选择一个类型</label>
+                    <select class="form-control" id="dishTypeSelect">
+
+                    </select>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -95,6 +102,25 @@
         var total = dishes.data.total;
         var page = dishes.data.pageNum;
         pagerScript.createDishPager("#pager",total,page);
+
+
+        $.get("/console/rest/dishType/getAllMyDishType", {
+                    typeName: "1"
+                },
+                function (data) {
+                    if(data['code']==0){
+                        console.log("成功");
+                        var list = data['data'];
+                        for(var i=0;i<list.length;i++){
+                            var dishType = list[i];
+                            $("#dishTypeSelect").append("<option value='"+dishType.typeId+"'>"+dishType.typeName+"</option>")
+                        }
+                    }else{
+                        console.log("失败");
+                        alert(data['msg']);
+                    }
+                }
+        );
     });
 </script>
 </@layout>

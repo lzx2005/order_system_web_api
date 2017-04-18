@@ -15,4 +15,6 @@ import java.util.List;
 public interface DishTypeRepository extends PagingAndSortingRepository<DishType,Integer>{
 
     Page<DishType> findByBelong(Pageable pageable, int belong);
+
+    List<DishType> findByBelong(int belong);
 }

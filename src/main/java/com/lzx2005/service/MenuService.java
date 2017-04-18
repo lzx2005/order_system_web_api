@@ -28,4 +28,6 @@ public interface MenuService {
     ServiceResult removeDishType(int typeId,int userId);
 
     ServiceResult getAllDishTypeByUserId(int page,int userId);
+
+    ServiceResult getAllDishTypeByUserId(int userId);
 }

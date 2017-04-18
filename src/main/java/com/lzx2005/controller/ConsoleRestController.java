@@ -51,8 +51,10 @@ public class ConsoleRestController {
 
     @RequestMapping(value = "/dishType/getAllMyDishType",method = RequestMethod.GET)
     @ResponseBody
-    public String getAllMyDishType(){
-        return null;
+    public String getAllMyDishType(HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        ServiceResult serviceResult = menuService.getAllDishTypeByUserId(user.getUserId());
+        return serviceResult.toString();
     }
 
     @RequestMapping(value = "/dishType/create",method = RequestMethod.POST)
