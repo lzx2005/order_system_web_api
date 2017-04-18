@@ -11,8 +11,10 @@
   <url>http://maven.apache.org</url>
 
   <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <start-class>com.lzx2005.Application</start-class>
   </properties>
+
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
