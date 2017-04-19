@@ -79,7 +79,7 @@ DROP TABLE IF EXISTS `order`;
 CREATE TABLE `order` (
   `order_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `order_belong` int(11) unsigned NOT NULL DEFAULT '0' COMMENT '属于谁',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建日期',
+  `create_time` datetime COMMENT '创建日期',
   `order_status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0:无效，1:新创建，2:正在点菜，3:已经提交下厨，4:已全部上菜，5:已买单',
   PRIMARY KEY (`order_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -92,7 +92,7 @@ CREATE TABLE `order_dish` (
   `order_dish_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `order_id` bigint(20) unsigned NOT NULL COMMENT '订单ID',
   `dish_id` bigint(20) unsigned NOT NULL COMMENT '菜品ID',
-  `create_time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+  `create_time` datetime COMMENT '创建时间',
   `status` tinyint(3) unsigned NOT NULL DEFAULT '0' COMMENT '0:无效，1:有效',
   PRIMARY KEY (`order_dish_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

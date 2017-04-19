@@ -35,13 +35,7 @@ public class Application extends SpringBootServletInitializer implements Command
     public void run(String... strings) throws Exception {
         logger.info("测试日志系统是否可用");
         //初始化一些数据
-
-
-        PageHelper.startPage(1, 10);
-        List<Map<String,Object>> list = dishDao.findByBelongLeftJoinDishType(2);
-        PageInfo pageInfo=new PageInfo(list);
-
-        System.out.println(pageInfo);
+        logger.info("测试Jenkins系统是否可用");
     }
 
 }
