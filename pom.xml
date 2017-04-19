@@ -137,7 +137,48 @@
           <version>4.1.6</version>
       </dependency>
   </dependencies>
+
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <myenv>dev</myenv>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>build</id>
+            <!-- <activation>
+                 <activeByDefault>true</activeByDefault>
+             </activation>-->
+            <properties>
+                <myenv>build</myenv>
+            </properties>
+        </profile>
+
+    </profiles>
+
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>properties/dev/*</exclude>
+                    <exclude>properties/build/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/properties/${myenv}</directory>
+                <includes>
+                    <include>*.properties</include>
+                </includes>
+            </resource>
+        </resources>
+
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -155,13 +196,6 @@
                 </configuration>
             </plugin>
         </plugins>
-
-
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-            </resource>
-        </resources>
 
         <finalName>order-system</finalName>
     </build>
