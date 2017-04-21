@@ -40,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
     private DishDao dishDao;
 
     @Override
-    public ServiceResult createDish(String name, double price, long logo, long type, int belong) {
+    public ServiceResult createDish(String name, double price, long logo, long type, int belong,String belongRest) {
         Dish dish = new Dish();
 
         dish.setName(name);
@@ -48,6 +48,7 @@ public class MenuServiceImpl implements MenuService {
         dish.setLogo(logo);
         dish.setType(type);
         dish.setBelong(belong);
+        dish.setBelongRest(belongRest);
         dish.setCreateTime(new Date());
 
         Dish save = dishRepository.save(dish);

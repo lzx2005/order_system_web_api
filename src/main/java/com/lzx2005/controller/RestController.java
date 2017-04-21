@@ -33,10 +33,11 @@ public class RestController {
                              @RequestParam(required = true) String name,
                              @RequestParam(required = true) double price,
                              @RequestParam(required = true) long logo,
+                             @RequestParam(required = true) String belongRest,
                              @RequestParam(required = true) long type){
 
         int userId = (int)request.getAttribute("userId");
-        ServiceResult dish = menuService.createDish(name, price, logo, type, userId);
+        ServiceResult dish = menuService.createDish(name, price, logo, type, userId,belongRest);
         logger.info(dish.toString());
         return dish.toString();
 

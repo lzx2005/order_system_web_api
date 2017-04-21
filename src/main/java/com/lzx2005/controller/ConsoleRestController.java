@@ -1,16 +1,25 @@
 package com.lzx2005.controller;
 
 import com.lzx2005.dto.ServiceResult;
+import com.lzx2005.entity.Restaurant;
 import com.lzx2005.entity.User;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.MenuService;
+import com.lzx2005.service.RestaurantService;
 import com.lzx2005.service.UserService;
+import com.lzx2005.tools.PointTools;
+import com.lzx2005.tools.SUID;
 import com.lzx2005.tools.StringTools;
+import com.mongodb.client.model.geojson.Point;
+import com.mongodb.client.model.geojson.Position;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lizhengxian on 2017/4/11.
@@ -25,18 +34,61 @@ public class ConsoleRestController {
     @Autowired
     private MenuService menuService;
 
+    @Autowired
+    private RestaurantService restaurantService;
+
+    /**
+     *
+     * ------------------餐厅管理----------------------
+     *
+     * */
+
+    @RequestMapping(value = "/restaurant/create",method = RequestMethod.POST)
+    @ResponseBody
+    public String createRestaurant(HttpServletRequest request,
+                                   @RequestParam(defaultValue = "",required = true) String name,
+                                   @RequestParam(defaultValue = "",required = true) double lng,
+                                   @RequestParam(defaultValue = "",required = true) double lat){
+        if(StringTools.hasEmpty(name,lng+"",lat+"")){
+            return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
+        }
+
+
+        double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
+        lat = doubles[0];
+        lng = doubles[1];
+        List<Double> pointList = new ArrayList<>();
+        pointList.add(lng);
+        pointList.add(lat);
+
+        User user = (User) request.getAttribute("user");
+        Restaurant restaurant = new Restaurant();
+        restaurant.setPosition(new Point(new Position(pointList)));
+        restaurant.setRestaurantName(name);
+        restaurant.setRestaurantId(SUID.getUUID());
+        restaurant.setBelong(user.getUserId());
+        restaurant.setCreateTime(new Date());
+        return restaurantService.createRestaurant(restaurant.toJSONObject()).toString();
+    }
+
+    /**
+     *
+     * ------------------菜品管理----------------------
+     *
+    * */
 
     @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
     @ResponseBody
     public String createDish(@RequestParam(defaultValue = "",required = true) String name,
                              @RequestParam(defaultValue = "",required = true) double price,
+                             @RequestParam(defaultValue = "",required = true) String belongRest,
                              @RequestParam(defaultValue = "",required = true) long type,
                              HttpServletRequest request){
-        if(StringTools.hasEmpty(name,price+"",type+"")){
+        if(StringTools.hasEmpty(name,price+"",type+"",belongRest)){
             return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
         }
         User user = (User) request.getAttribute("user");
-        ServiceResult serviceResult = menuService.createDish(name,price,0,type,user.getUserId());
+        ServiceResult serviceResult = menuService.createDish(name,price,0,type,user.getUserId(),belongRest);
         return serviceResult.toString();
     }
 
@@ -47,6 +99,13 @@ public class ConsoleRestController {
         //todo 删除菜品
         return null;
     }
+
+
+    /**
+     *
+     * ------------------菜品类型管理----------------------
+     *
+     * */
 
     @RequestMapping(value = "/dishType/getAllMyDishType",method = RequestMethod.GET)
     @ResponseBody

@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface MenuService {
 
-    ServiceResult createDish(String name,double price,long image,long type,int belong);
+    ServiceResult createDish(String name,double price,long image,long type,int belong,String belongRest);
 
     ServiceResult getDishById(long id);
 

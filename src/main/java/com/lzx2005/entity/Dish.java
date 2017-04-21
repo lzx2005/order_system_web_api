@@ -26,6 +26,9 @@ public class Dish {
     private int belong;
 
     @Column
+    private String belongRest;
+
+    @Column
     private long logo;
 
     @Column
@@ -34,6 +37,13 @@ public class Dish {
     @Column
     private Date createTime;
 
+    public String getBelongRest() {
+        return belongRest;
+    }
+
+    public void setBelongRest(String belongRest) {
+        this.belongRest = belongRest;
+    }
 
     public long getId() {
         return id;

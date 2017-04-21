@@ -20,8 +20,8 @@ import java.util.List;
  * Created by Lizhengxian on 2017/4/7.
  */
 @Component
-public class MongoDao {
-    private static final Logger logger = LoggerFactory.getLogger(MongoDao.class);
+public class MongoOrderDao {
+    private static final Logger logger = LoggerFactory.getLogger(MongoOrderDao.class);
 
     @Autowired
     private MongoTemplate mongoTemplate;
