@@ -3,11 +3,14 @@ package com.lzx2005.dao;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.lzx2005.entity.Restaurant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
@@ -26,8 +29,11 @@ public class MongoRestaurantDao {
 
     private String collectionName="restaurant";
 
-    public void insertRestaurant(JSONObject restaurant){
+    public void insertRestaurant(Restaurant restaurant){
         mongoTemplate.insert(restaurant,this.collectionName);
+        GeospatialIndex position = new GeospatialIndex("position");
+        //position.typed(GeoSpatialIndexType.GEO_2DSPHERE);
+        mongoTemplate.indexOps(this.collectionName).ensureIndex(position);
     }
 
     public List<JSONObject> getAllMyRestaurant(int userId){

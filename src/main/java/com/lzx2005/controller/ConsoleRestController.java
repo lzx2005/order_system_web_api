@@ -10,6 +10,8 @@ import com.lzx2005.service.UserService;
 import com.lzx2005.tools.PointTools;
 import com.lzx2005.tools.SUID;
 import com.lzx2005.tools.StringTools;
+
+import com.mongodb.client.model.geojson.CoordinateReferenceSystem;
 import com.mongodb.client.model.geojson.Point;
 import com.mongodb.client.model.geojson.Position;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,20 +57,17 @@ public class ConsoleRestController {
 
 
         double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
-        lat = doubles[0];
-        lng = doubles[1];
-        List<Double> pointList = new ArrayList<>();
-        pointList.add(lng);
-        pointList.add(lat);
-
+        List<Double> list = new ArrayList<>();
+        list.add(doubles[0]);
+        list.add(doubles[1]);
         User user = (User) request.getAttribute("user");
         Restaurant restaurant = new Restaurant();
-        restaurant.setPosition(new Point(new Position(pointList)));
+        restaurant.setPosition(list);
         restaurant.setRestaurantName(name);
         restaurant.setRestaurantId(SUID.getUUID());
         restaurant.setBelong(user.getUserId());
         restaurant.setCreateTime(new Date());
-        return restaurantService.createRestaurant(restaurant.toJSONObject()).toString();
+        return restaurantService.createRestaurant(restaurant).toString();
     }
 
     /**

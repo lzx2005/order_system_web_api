@@ -50,21 +50,19 @@ public class Application extends SpringBootServletInitializer implements Command
         //初始化一些数据
         logger.info("测试Jenkins系统是否可用");
 
-        //double lng=106.538768;
-        //double lat=29.608937;
-        //double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
-        //lat = doubles[0];
-        //lng = doubles[1];
-        //List<Double> pointList = new ArrayList<>();
-        //pointList.add(lat);
-        //pointList.add(lng);
-        //Restaurant restaurant = new Restaurant();
-        //restaurant.setPosition(new Point(new Position(pointList)));
-        //restaurant.setRestaurantName("XX餐厅");
-        //restaurant.setRestaurantId(SUID.getUUID());
-        //restaurant.setBelong(2);
-        //restaurant.setCreateTime(new Date());
-        //ServiceResult restaurant1 = restaurantService.createRestaurant(restaurant.toJSONObject());
+        double lng=106.538768;
+        double lat=29.608937;
+        double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
+        List<Double> list = new ArrayList<>();
+        list.add(doubles[0]);
+        list.add(doubles[1]);
+        Restaurant restaurant = new Restaurant();
+        restaurant.setPosition(list);
+        restaurant.setRestaurantName("XX餐厅");
+        restaurant.setRestaurantId(SUID.getUUID());
+        restaurant.setBelong(2);
+        restaurant.setCreateTime(new Date());
+        //ServiceResult restaurant1 = restaurantService.createRestaurant(restaurant);
         //System.out.println(restaurant1.toString());
     }
 

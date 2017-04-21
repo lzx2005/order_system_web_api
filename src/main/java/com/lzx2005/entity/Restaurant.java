@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.mongodb.client.model.geojson.Point;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Lizhengxian on 2017/4/21.
@@ -12,7 +13,8 @@ import java.util.Date;
 public class Restaurant {
     private String restaurantId;
     private String restaurantName;
-    private Point position;
+    private List<Double> position;
+
     private int belong;
     private Date createTime;
 
@@ -23,6 +25,14 @@ public class Restaurant {
 
     public JSONObject toJSONObject(){
         return JSON.parseObject(this.toString());
+    }
+
+    public List<Double> getPosition() {
+        return position;
+    }
+
+    public void setPosition(List<Double> position) {
+        this.position = position;
     }
 
     public int getBelong() {
@@ -49,13 +59,6 @@ public class Restaurant {
         this.restaurantName = restaurantName;
     }
 
-    public Point getPosition() {
-        return position;
-    }
-
-    public void setPosition(Point position) {
-        this.position = position;
-    }
 
     public Date getCreateTime() {
         return createTime;
