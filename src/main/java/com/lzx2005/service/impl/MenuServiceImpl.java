@@ -60,6 +60,29 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
+    public ServiceResult updateDish(long dishId, String name, double price, long logo, long type, int belong, String belongRest) {
+        Dish dish = dishRepository.findOne(dishId);
+        if(dish==null){
+            return ServiceResultEnum.DISH_IS_NOT_EXIST.toServiceResult();
+        }
+
+        dish.setName(name);
+        dish.setPrice(price);
+        dish.setLogo(logo);
+        dish.setType(type);
+        dish.setBelong(belong);
+        dish.setBelongRest(belongRest);
+        dish.setCreateTime(new Date());
+
+        Dish save = dishRepository.save(dish);
+
+        if(save!=null){
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(save);
+        }
+        return ServiceResultEnum.DB_ERROR.toServiceResult();
+    }
+
+    @Override
     public ServiceResult getDishById(long id) {
         Dish dish = dishRepository.findById(id);
         if(dish!=null){

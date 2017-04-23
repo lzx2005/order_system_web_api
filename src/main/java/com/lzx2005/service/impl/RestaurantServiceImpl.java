@@ -1,6 +1,7 @@
 package com.lzx2005.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.github.pagehelper.PageInfo;
 import com.lzx2005.dao.MongoRestaurantDao;
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.entity.Restaurant;
@@ -26,8 +27,14 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     @Override
+    public ServiceResult getAllMyRestaurant(int page,int userId) {
+        PageInfo<Restaurant> allMyRestaurant = mongoRestaurantDao.getAllMyRestaurantByPage(userId,page);
+        return ServiceResultEnum.SUCCESS.toServiceResult().setData(allMyRestaurant);
+    }
+
+    @Override
     public ServiceResult getAllMyRestaurant(int userId) {
-        List<JSONObject> allMyRestaurant = mongoRestaurantDao.getAllMyRestaurant(userId);
+        List<Restaurant> allMyRestaurant = mongoRestaurantDao.getAllMyRestaurant(userId);
         return ServiceResultEnum.SUCCESS.toServiceResult().setData(allMyRestaurant);
     }
 }

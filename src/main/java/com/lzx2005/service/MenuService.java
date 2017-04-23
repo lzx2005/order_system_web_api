@@ -11,7 +11,15 @@ import java.util.List;
  */
 public interface MenuService {
 
-    ServiceResult createDish(String name,double price,long image,long type,int belong,String belongRest);
+    /**
+     *
+     * ----------------菜品---------------
+     *
+     * */
+
+    ServiceResult createDish(String name,double price,long logo,long type,int belong,String belongRest);
+
+    ServiceResult updateDish(long dishId,String name,double price,long logo,long type,int belong,String belongRest);
 
     ServiceResult getDishById(long id);
 
@@ -22,6 +30,12 @@ public interface MenuService {
     ServiceResult removeDish(long id);
 
     ServiceResult getDishesByType(int page,long type);
+
+    /**
+     *
+     * ----------------菜单类型---------------
+     *
+    * */
 
     ServiceResult createDishType(String typeName,int belong);
 

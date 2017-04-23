@@ -15,6 +15,7 @@
           d.create_time,
           d.logo,
           d.type,
+          d.belong_rest,
           dt.type_name
         from
           dish as d

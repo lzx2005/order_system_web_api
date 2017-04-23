@@ -36,30 +36,29 @@ public class MongoRestaurantDao {
         mongoTemplate.indexOps(this.collectionName).ensureIndex(position);
     }
 
-    public List<JSONObject> getAllMyRestaurant(int userId){
-        Criteria criteria = Criteria.where("userId").is(userId);
+    public List<Restaurant> getAllMyRestaurant(int userId){
+        Criteria criteria = Criteria.where("belong").is(userId);
         Query query = new Query(criteria);
-        List<JSONObject> restaurant = mongoTemplate.find(query, JSONObject.class, this.collectionName);
-        return restaurant;
+        return mongoTemplate.find(query, Restaurant.class, this.collectionName);
     }
 
 
-    public PageInfo<JSONObject> getAllMyRestaurantByPage(int userId,int page){
-        Criteria criteria = Criteria.where("userId").is(userId);
+    public PageInfo<Restaurant> getAllMyRestaurantByPage(int userId,int page){
+        Criteria criteria = Criteria.where("belong").is(userId);
         Query query = new Query(criteria);
         query.with(new PageRequest(page,10));
 
         //查询
         long count = mongoTemplate.count(query, this.collectionName);
-        List<JSONObject> jsonObjects = mongoTemplate.find(query, JSONObject.class, this.collectionName);
+        List<Restaurant> jsonObjects = mongoTemplate.find(query, Restaurant.class, this.collectionName);
 
         //计算分页
-        Page<JSONObject> pageResult = new Page<>(page,10);
+        Page<Restaurant> pageResult = new Page<>(page,10);
         pageResult.setTotal(count);
 
         int pages = (int)count/10;
         pageResult.setPages(pages);
-        PageInfo<JSONObject> pageInfo = pageResult.toPageInfo();
+        PageInfo<Restaurant> pageInfo = pageResult.toPageInfo();
         pageInfo.setList(jsonObjects);
         return pageInfo;
     }

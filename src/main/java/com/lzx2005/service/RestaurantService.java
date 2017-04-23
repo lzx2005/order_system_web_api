@@ -11,5 +11,7 @@ public interface RestaurantService {
 
     ServiceResult createRestaurant(Restaurant restaurant);
 
+    ServiceResult getAllMyRestaurant(int page,int userId);
+
     ServiceResult getAllMyRestaurant(int userId);
 }

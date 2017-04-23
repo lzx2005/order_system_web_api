@@ -70,6 +70,16 @@ public class ConsoleRestController {
         return restaurantService.createRestaurant(restaurant).toString();
     }
 
+
+
+    @RequestMapping(value = "/restaurant/getAllMyRestaurant",method = RequestMethod.GET)
+    @ResponseBody
+    public String getAllMyRestaurant(HttpServletRequest request){
+        User user = (User) request.getAttribute("user");
+        ServiceResult serviceResult = restaurantService.getAllMyRestaurant(user.getUserId());
+        return serviceResult.toString();
+    }
+
     /**
      *
      * ------------------菜品管理----------------------
@@ -92,11 +102,28 @@ public class ConsoleRestController {
     }
 
 
+    @RequestMapping(value = "/dish/edit",method = RequestMethod.POST)
+    @ResponseBody
+    public String editDish(@RequestParam("dishId")long dishId,
+                           @RequestParam(defaultValue = "",required = true) String name,
+                           @RequestParam(defaultValue = "",required = true) double price,
+                           @RequestParam(defaultValue = "",required = true) String belongRest,
+                           @RequestParam(defaultValue = "",required = true) long type,
+                           HttpServletRequest request){
+
+        if(StringTools.hasEmpty(name,price+"",type+"",belongRest)){
+            return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
+        }
+        User user = (User) request.getAttribute("user");
+        ServiceResult serviceResult = menuService.updateDish(dishId,name,price,0,type,user.getUserId(),belongRest);
+        return serviceResult.toString();
+    }
+
     @RequestMapping(value = "/dish/delete",method = RequestMethod.POST)
     @ResponseBody
     public String deleteDish(@RequestParam("dishId")long dishId){
-        //todo 删除菜品
-        return null;
+        ServiceResult serviceResult = menuService.removeDish(dishId);
+        return serviceResult.toString();
     }
 
 
