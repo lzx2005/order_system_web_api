@@ -31,7 +31,6 @@ public class UserController {
         return login.toString();
     }
 
-
     @RequestMapping(value = "/resetPassword",method = RequestMethod.POST)
     public String resetPassword(@RequestParam(value = "userId",defaultValue = "0") int userId,
                                 @RequestParam(value = "newPassword",defaultValue = "") String newPassword){
@@ -40,5 +39,10 @@ public class UserController {
         }
         ServiceResult serviceResult = userService.resetPassword(userId,newPassword);
         return serviceResult.toString();
+    }
+
+    @RequestMapping(value = "/userInfo",method = RequestMethod.GET)
+    public String userinfo(String token){
+        return userService.getUserInfo(token).toString();
     }
 }

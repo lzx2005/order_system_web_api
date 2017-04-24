@@ -11,4 +11,6 @@ public interface UserService {
     ServiceResult consoleLogin(String username,String password);
 
     ServiceResult resetPassword(int userId,String newPassword);
+
+    ServiceResult getUserInfo(String token);
 }

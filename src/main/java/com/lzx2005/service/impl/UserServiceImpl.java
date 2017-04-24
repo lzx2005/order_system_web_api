@@ -1,6 +1,7 @@
 package com.lzx2005.service.impl;
 
 import com.lzx2005.dto.ServiceResult;
+import com.lzx2005.dto.Token;
 import com.lzx2005.entity.User;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.UserRepository;
@@ -75,5 +76,18 @@ public class UserServiceImpl implements UserService {
             return ServiceResultEnum.SUCCESS.toServiceResult().setData(save);
         }
         return ServiceResultEnum.FAIL.toServiceResult();
+    }
+
+    @Override
+    public ServiceResult getUserInfo(String token) {
+        Token token1 = TokenTools.parseToken(token);
+        String userId = token1.getUserId();
+        User one = userRepository.findOne(Integer.valueOf(userId));
+        if(one==null){
+            return ServiceResultEnum.CANT_FIND_USER.toServiceResult();
+        }else{
+            one.setPassword("");
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(one);
+        }
     }
 }

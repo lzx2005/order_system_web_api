@@ -33,7 +33,7 @@
                         <td>${(x.type_name)!}</td>
                         <td>${(x.create_time)!}</td>
                         <td>
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editDishModal" onclick="writeToInput(this,${(x.type)!},'${(x.d.belong_rest)!}')">编辑</button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editDishModal" onclick="writeToInput(this,${(x.type)!},'${(x.belong_rest)!}')">编辑</button>
                             <button type="button" class="btn btn-danger" onclick="dishScript.deleteDish(${(x.id)!})">删除</button>
                         </td>
                     </tr>
