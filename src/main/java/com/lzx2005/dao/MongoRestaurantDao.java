@@ -8,10 +8,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.geo.*;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.geo.Sphere;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +35,7 @@ public class MongoRestaurantDao {
     public void insertRestaurant(Restaurant restaurant){
         mongoTemplate.insert(restaurant,this.collectionName);
         GeospatialIndex position = new GeospatialIndex("position");
-        //position.typed(GeoSpatialIndexType.GEO_2DSPHERE);
+        position.typed(GeoSpatialIndexType.GEO_2D);
         mongoTemplate.indexOps(this.collectionName).ensureIndex(position);
     }
 
@@ -61,6 +64,12 @@ public class MongoRestaurantDao {
         PageInfo<Restaurant> pageInfo = pageResult.toPageInfo();
         pageInfo.setList(jsonObjects);
         return pageInfo;
+    }
+
+    public GeoResults<Restaurant> getNearRestaurant(double lng ,double lat,double length){
+        NearQuery nearQuery = NearQuery.near(lng, lat, Metrics.KILOMETERS).maxDistance(length);
+        GeoResults<Restaurant> geoResults = mongoTemplate.geoNear(nearQuery, Restaurant.class, this.collectionName);
+        return geoResults;
     }
 
 }

@@ -14,4 +14,6 @@ public interface RestaurantService {
     ServiceResult getAllMyRestaurant(int page,int userId);
 
     ServiceResult getAllMyRestaurant(int userId);
+
+    ServiceResult getNearRestaurant(double lng,double lat,double length);
 }

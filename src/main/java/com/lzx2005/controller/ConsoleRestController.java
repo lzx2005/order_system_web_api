@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -56,10 +57,10 @@ public class ConsoleRestController {
         }
 
 
-        double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
-        List<Double> list = new ArrayList<>();
-        list.add(doubles[0]);
-        list.add(doubles[1]);
+        //double[] doubles = PointTools.bd09_To_Gcj02(lat, lng);
+        List<Double> list = new LinkedList<>();
+        list.add(lng);
+        list.add(lat);
         User user = (User) request.getAttribute("user");
         Restaurant restaurant = new Restaurant();
         restaurant.setPosition(list);

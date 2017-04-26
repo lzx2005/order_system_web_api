@@ -1,6 +1,7 @@
 <#include "layout/layout.ftl"/>
 <@layout>
-    <h1 class="page-header">我的餐厅</h1>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=1dbfc0a150429d83820dac18eef985c9"></script>
+<h1 class="page-header">我的餐厅</h1>
     <div class="table-responsive">
         <table class="table table-striped">
             <thead>
@@ -61,31 +62,25 @@
                     &times;
                 </button>
                 <h4 class="modal-title" id="myModalLabel">
-                    添加一个菜品
+                    添加一个餐厅
                 </h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label for="exampleInputEmail1">名称</label>
-                    <input type="text" class="form-control" id="name" placeholder="名称">
-                </div>
-                <div class="form-group">
-                    <label for="exampleInputPassword1">价格</label>
-                    <input type="text" class="form-control" id="price" placeholder="价格">
+                    <input type="text" class="form-control" id="name" placeholder="填写一个您的餐馆的名称">
                 </div>
 
                 <div class="form-group">
-                    <label for="name">选择一个类型</label>
-                    <select class="form-control" id="dishTypeSelect">
-
-                    </select>
+                    <label for="name">选择地点</label>
+                    <div id="container" tabindex="0"></div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
                     关闭
                 </button>
-                <button type="button" class="btn btn-primary" onclick="dishScript.dishCreateSubmit(this)">
+                <button type="button" class="btn btn-primary" onclick="restaurantScript.restCreateSubmit(this)">
                     提交
                 </button>
             </div>
@@ -93,6 +88,7 @@
     </div><!-- /.modal -->
 </div>
 <script type="text/javascript">
+    var marker;
     $(function () {
         var restaurants = ${restaurants};
         var total = restaurants.data.total;
@@ -100,23 +96,25 @@
         pagerScript.createRestaurantPager("#pager",total,page);
 
 
-        $.get("/console/rest/dishType/getAllMyDishType", {
-                    typeName: "1"
-                },
-                function (data) {
-                    if(data['code']==0){
-                        console.log("成功");
-                        var list = data['data'];
-                        for(var i=0;i<list.length;i++){
-                            var dishType = list[i];
-                            $("#dishTypeSelect").append("<option value='"+dishType.typeId+"'>"+dishType.typeName+"</option>")
-                        }
-                    }else{
-                        console.log("失败");
-                        alert(data['msg']);
-                    }
-                }
-        );
+        var map = new AMap.Map('container',{
+            resizeEnable: true,
+            zoom: 15,
+            center: [120.15255689620972, 30.26670878332787]
+        });
+
+        map.on('click', function(e) {
+            if(typeof(marker)!="undefined"){
+                map.remove(marker);
+            }
+            marker = new AMap.Marker({
+                icon : 'http://vdata.amap.com/icons/b18/1/2.png',//24px*24px
+                position : e.lnglat,
+                offset : new AMap.Pixel(-12,-12),
+                map : map
+            });
+        });
     });
+
+
 </script>
 </@layout>

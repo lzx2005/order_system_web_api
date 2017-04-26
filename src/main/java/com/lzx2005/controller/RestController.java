@@ -4,6 +4,7 @@ package com.lzx2005.controller;
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.MenuService;
+import com.lzx2005.service.RestaurantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,15 @@ public class RestController {
 
     @Autowired
     private MenuService menuService;
+
+    @Autowired
+    private RestaurantService restaurantService;
+
+    @RequestMapping(value = "/restaurant/near",method = RequestMethod.GET)
+    @ResponseBody
+    public String getNearRestaurant(double lng,double lat,double length){
+        return restaurantService.getNearRestaurant(lng,lat,length).toString();
+    }
 
     @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
     @ResponseBody

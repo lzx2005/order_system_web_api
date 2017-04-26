@@ -66,6 +66,50 @@ var alertScript = {
     }
 }
 
+var restaurantScript = {
+    restCreateSubmit:function (e) {
+        $(e).attr("disabled","");
+        var name = $("#name").val();
+        var position = marker.getPosition();
+
+        if(name.length>0){
+            this.createRest(name,position);
+        }else{
+            $(e).removeAttr("disabled");
+            swal("请输入类型名称");
+        }
+    },
+    createRest:function(name,position){
+        console.log(name,position);
+        var lng = position.getLng();
+        var lat = position.getLat();
+        $.post("/console/rest/restaurant/create", {
+                name: name,
+                lng: lng,
+                lat: lat
+            },
+            function (data) {
+                if(data['code']==0){
+                    console.log("成功");
+                    swal({
+                            title: "创建成功",
+                            text: "创建成功！",
+                            type: "success",
+                            confirmButtonText: "确定",
+                            closeOnConfirm: true
+                        },
+                        function(){
+                            window.location.reload();
+                        });
+                }else{
+                    console.log("失败");
+                    swal(data['msg']);
+                    $(e).removeAttr("disabled");
+                }
+            }
+        );
+    }
+}
 
 var dishScript = {
     dishCreateSubmit:function (e) {

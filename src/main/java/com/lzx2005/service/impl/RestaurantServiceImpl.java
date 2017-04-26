@@ -8,6 +8,7 @@ import com.lzx2005.entity.Restaurant;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.GeoResults;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,5 +37,10 @@ public class RestaurantServiceImpl implements RestaurantService {
     public ServiceResult getAllMyRestaurant(int userId) {
         List<Restaurant> allMyRestaurant = mongoRestaurantDao.getAllMyRestaurant(userId);
         return ServiceResultEnum.SUCCESS.toServiceResult().setData(allMyRestaurant);
+    }
+
+    @Override
+    public ServiceResult getNearRestaurant(double lng, double lat, double length) {
+        return ServiceResultEnum.SUCCESS.toServiceResult().setData(mongoRestaurantDao.getNearRestaurant(lng, lat, length));
     }
 }
