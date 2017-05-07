@@ -33,7 +33,7 @@
           d.name,
           d.price,
           d.belong,
-          d.belongRest,
+          d.belong_rest,
           d.create_time,
           d.logo,
           d.type,
