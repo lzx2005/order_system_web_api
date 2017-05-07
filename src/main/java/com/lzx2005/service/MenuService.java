@@ -31,6 +31,7 @@ public interface MenuService {
 
     ServiceResult getDishesByType(int page,long type);
 
+    ServiceResult getAllDishByRestId(String restaurantId);
     /**
      *
      * ----------------菜单类型---------------

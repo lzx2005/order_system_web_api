@@ -73,4 +73,10 @@ public class RestController {
         return dishes.toString();
     }
 
+    @RequestMapping(value = "/dish/getByRestId",method = RequestMethod.GET)
+    @ResponseBody
+    public String getDishByRest(String restId){
+        return menuService.getAllDishByRestId(restId).toString();
+    }
+
 }

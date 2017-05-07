@@ -26,4 +26,26 @@
         where
           d.belong = #{belong}
     </select>
+
+    <select id="findByBelongRestLeftJoinDishType" resultType="java.util.Map" parameterType="java.lang.String">
+        select
+          d.id,
+          d.name,
+          d.price,
+          d.belong,
+          d.belongRest,
+          d.create_time,
+          d.logo,
+          d.type,
+          d.belong_rest,
+          dt.type_name
+        from
+          dish as d
+        left join
+          dish_type as dt
+        on
+          dt.type_id=d.type
+        where
+          d.belong_rest = #{belongRest}
+    </select>
 </mapper>

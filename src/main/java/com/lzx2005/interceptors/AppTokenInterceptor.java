@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletResponse;
 public class AppTokenInterceptor extends HandlerInterceptorAdapter {
     private static final Logger logger = LoggerFactory.getLogger(AppTokenInterceptor.class);
 
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String token = request.getParameter("token");

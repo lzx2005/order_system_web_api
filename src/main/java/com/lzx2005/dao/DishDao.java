@@ -12,4 +12,6 @@ public interface DishDao {
     Dish findById(long id);
 
     List<Map<String,Object>> findByBelongLeftJoinDishType(int belong);
+
+    List<Map<String,Object>> findByBelongRestLeftJoinDishType(String belongRest);
 }

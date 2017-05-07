@@ -1,5 +1,7 @@
 package com.lzx2005.service.impl;
 
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lzx2005.dao.DishDao;
@@ -10,8 +12,11 @@ import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.DishRepository;
 import com.lzx2005.repository.DishTypeRepository;
 import com.lzx2005.service.MenuService;
+import com.lzx2005.tools.StringTools;
 import org.hibernate.jpa.criteria.expression.function.BasicFunctionExpression;
 import org.hibernate.jpa.internal.metamodel.SingularAttributeImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -29,6 +34,7 @@ import java.util.Map;
  */
 @Service
 public class MenuServiceImpl implements MenuService {
+    private static final Logger logger = LoggerFactory.getLogger(MenuServiceImpl.class);
 
     @Autowired
     private DishRepository dishRepository;
@@ -127,6 +133,28 @@ public class MenuServiceImpl implements MenuService {
             return ServiceResultEnum.SUCCESS.toServiceResult().setData(dishes);
         }
         return ServiceResultEnum.DISH_IS_NOT_EXIST.toServiceResult();
+    }
+
+    @Override
+    public ServiceResult getAllDishByRestId(String restaurantId) {
+        List<Map<String, Object>> dishes = dishDao.findByBelongRestLeftJoinDishType(restaurantId);
+        JSONObject root = new JSONObject();
+        for(Map<String,Object> dish : dishes){
+            String typeName = (String) dish.get("type_name");
+            if(StringTools.isEmpty(typeName)){
+                logger.info("找不到type_name");
+                continue;
+            }
+            if(root.containsKey(typeName)){
+                JSONArray jsonArray = root.getJSONArray(typeName);
+                jsonArray.add(dish);
+            }else{
+                JSONArray jsonArray = new JSONArray();
+                jsonArray.add(dish);
+                root.put(typeName,jsonArray);
+            }
+        }
+        return ServiceResultEnum.SUCCESS.toServiceResult().setData(root);
     }
 
     @Override
