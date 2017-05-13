@@ -75,6 +75,11 @@ var restaurantScript = {
         var score = $("#score").val();
         var soldPerMonth = $("#soldPerMonth").val();
         var avatar = $("#avatar").val();
+        if(typeof(marker) == "undefined"){
+            $(e).removeAttr("disabled");
+            swal("请选择地图上您餐厅的位置");
+            return;
+        }
         var position = marker.getPosition();
 
         if(isNaN(score)){
@@ -90,13 +95,13 @@ var restaurantScript = {
         }
 
         if(name.length>0){
-            this.createRest(name,position,tag,preferential,score,soldPerMonth,avatar);
+            this.createRest(name,position,tag,preferential,score,soldPerMonth,avatar,e);
         }else{
             $(e).removeAttr("disabled");
-            swal("请输入类型名称");
+            swal("请输入餐厅名称");
         }
     },
-    createRest:function(name,position,tag,preferential,score,soldPerMonth,avatar){
+    createRest:function(name,position,tag,preferential,score,soldPerMonth,avatar,e){
         console.log(name,position);
         var lng = position.getLng();
         var lat = position.getLat();

@@ -147,7 +147,9 @@
         var file = this.files[0];
         //判断类型是不是图片
         if(!/image\/\w+/.test(file.type)){
-            alert("请确保文件为图像类型");
+
+            swal("请确保文件为图像类型");
+            $("#fileInput").val("");
             return false;
         }
         var reader = new FileReader();
