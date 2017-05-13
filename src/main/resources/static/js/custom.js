@@ -70,23 +70,45 @@ var restaurantScript = {
     restCreateSubmit:function (e) {
         $(e).attr("disabled","");
         var name = $("#name").val();
+        var tag = $("#tag").val();
+        var preferential = $("#preferential").val();
+        var score = $("#score").val();
+        var soldPerMonth = $("#soldPerMonth").val();
+        var avatar = $("#avatar").val();
         var position = marker.getPosition();
 
+        if(isNaN(score)){
+            $(e).removeAttr("disabled");
+            swal("分数请输入数字类型");
+            return;
+        }
+
+        if(isNaN(soldPerMonth)){
+            $(e).removeAttr("disabled");
+            swal("月销量请输入数字类型");
+            return;
+        }
+
         if(name.length>0){
-            this.createRest(name,position);
+            this.createRest(name,position,tag,preferential,score,soldPerMonth,avatar);
         }else{
             $(e).removeAttr("disabled");
             swal("请输入类型名称");
         }
     },
-    createRest:function(name,position){
+    createRest:function(name,position,tag,preferential,score,soldPerMonth,avatar){
         console.log(name,position);
         var lng = position.getLng();
         var lat = position.getLat();
         $.post("/console/rest/restaurant/create", {
                 name: name,
                 lng: lng,
-                lat: lat
+                lat: lat,
+                tag: tag,
+                preferential : preferential,
+                score : score,
+                soldPerMonth : soldPerMonth,
+                avatar : avatar
             },
             function (data) {
                 if(data['code']==0){

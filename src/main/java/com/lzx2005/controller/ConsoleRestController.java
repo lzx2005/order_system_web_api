@@ -19,10 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Lizhengxian on 2017/4/11.
@@ -49,10 +46,15 @@ public class ConsoleRestController {
     @RequestMapping(value = "/restaurant/create",method = RequestMethod.POST)
     @ResponseBody
     public String createRestaurant(HttpServletRequest request,
-                                   @RequestParam(defaultValue = "",required = true) String name,
-                                   @RequestParam(defaultValue = "",required = true) double lng,
-                                   @RequestParam(defaultValue = "",required = true) double lat){
-        if(StringTools.hasEmpty(name,lng+"",lat+"")){
+                                   String name,
+                                   double lng,
+                                   double lat,
+                                   String tag,
+                                   @RequestParam(defaultValue = "0.0") double score,
+                                   @RequestParam(defaultValue = "0") int soldPerMonth,
+                                   String preferential,
+                                   String avatar){
+        if(StringTools.hasEmpty(name,lng+"",lat+"",tag,preferential,avatar)){
             return ServiceResultEnum.NEED_PARAMS.toServiceResult().toString();
         }
 
@@ -68,6 +70,14 @@ public class ConsoleRestController {
         restaurant.setRestaurantId(SUID.getUUID());
         restaurant.setBelong(user.getUserId());
         restaurant.setCreateTime(new Date());
+        restaurant.setTag(tag);
+        restaurant.setScore(score);
+        restaurant.setSoldPerMonth(soldPerMonth);
+        restaurant.setAvatar(avatar);
+
+        HashMap<String,String> hashMap = new HashMap<>();
+        hashMap.put("惠",preferential);
+        restaurant.setPreferential(hashMap);
         return restaurantService.createRestaurant(restaurant).toString();
     }
 

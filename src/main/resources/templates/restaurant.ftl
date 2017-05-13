@@ -75,6 +75,34 @@
                     <label for="name">选择地点</label>
                     <div id="container" tabindex="0"></div>
                 </div>
+
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputEmail1">标签</label>
+                    <input type="text" class="form-control" id="tag" placeholder="填写一个您的餐馆的标签">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="exampleInputEmail1">优惠</label>
+                    <input type="text" class="form-control" id="preferential" placeholder="填写优惠信息">
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label for="exampleInputEmail1">评分</label>
+                    <input type="text" class="form-control" id="score" placeholder="填写一个您的餐馆的评分">
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="exampleInputEmail1">月销售</label>
+                    <input type="text" class="form-control" id="soldPerMonth" placeholder="填写您餐馆每月的销售数量">
+                </div>
+
+                <div class="form-group">
+                    <label for="exampleInputEmail1">图标</label>
+                    <input type="file" class="form-control" id="fileInput" placeholder="上传图标"/>
+                    <br/>
+                    <img src="" id="avatar_img" style="display: none" width="30%">
+                    <input type="hidden" class="form-control" id="avatar" placeholder="BASE64"/>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">
@@ -115,6 +143,22 @@
         });
     });
 
-
+    $("#fileInput").change(function(){
+        var file = this.files[0];
+        //判断类型是不是图片
+        if(!/image\/\w+/.test(file.type)){
+            alert("请确保文件为图像类型");
+            return false;
+        }
+        var reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = function(e){
+            image_base64=this.result.split(",")[1];
+            //就是base64
+            $("#avatar").val(image_base64)
+            $("#avatar_img").attr("src","data:image/png;base64,"+image_base64);
+            $("#avatar_img").css("display","block");
+        }
+    });
 </script>
 </@layout>
