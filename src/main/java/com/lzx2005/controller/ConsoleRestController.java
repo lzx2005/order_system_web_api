@@ -82,6 +82,19 @@ public class ConsoleRestController {
     }
 
 
+    @RequestMapping(value = "/restaurant/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteRestaurant(HttpServletRequest request,String restaurantId){
+        User user = (User) request.getAttribute("user");
+        ServiceResult result = restaurantService.findByRestaurentId(restaurantId);
+        if(result.getCode()==ServiceResultEnum.SUCCESS.getCode()){
+            //找到餐厅
+            ServiceResult serviceResult = restaurantService.deleteRestaurant(restaurantId,user.getUserId());
+            return serviceResult.toString();
+        }else{
+            return result.toString();
+        }
+    }
 
     @RequestMapping(value = "/restaurant/getAllMyRestaurant",method = RequestMethod.GET)
     @ResponseBody

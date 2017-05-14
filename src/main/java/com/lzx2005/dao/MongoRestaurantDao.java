@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.lzx2005.entity.Restaurant;
+import com.mongodb.WriteResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +40,20 @@ public class MongoRestaurantDao {
         mongoTemplate.indexOps(this.collectionName).ensureIndex(position);
     }
 
+    public int deleteRestaurant(String restaurantId){
+
+        Criteria criteria = Criteria.where("restaurantId").is(restaurantId);
+        Query query = new Query(criteria);
+        WriteResult result = mongoTemplate.remove(query, this.collectionName);
+        int n = result.getN();
+        if(n>0){
+            logger.info("删除餐厅"+restaurantId+"成功，删除了"+n+"条记录");
+        }else{
+            logger.info("删除餐厅"+restaurantId+"失败");
+        }
+        return n;
+    }
+
     public List<Restaurant> getAllMyRestaurant(int userId){
         Criteria criteria = Criteria.where("belong").is(userId);
         Query query = new Query(criteria);
@@ -70,6 +85,18 @@ public class MongoRestaurantDao {
         NearQuery nearQuery = NearQuery.near(lng, lat, Metrics.KILOMETERS).maxDistance(length);
         GeoResults<Restaurant> geoResults = mongoTemplate.geoNear(nearQuery, Restaurant.class, this.collectionName);
         return geoResults;
+    }
+
+    public Restaurant findByRestaurantId(String restaurantId){
+        Criteria criteria = Criteria.where("restaurantId").is(restaurantId);
+        Query query = new Query(criteria);
+        return mongoTemplate.findOne(query, Restaurant.class, this.collectionName);
+    }
+
+    public Restaurant findByRestaurantIdAndUserId(String restaurantId,int userId){
+        Criteria criteria = Criteria.where("restaurantId").is(restaurantId).and("belong").is(userId);
+        Query query = new Query(criteria);
+        return mongoTemplate.findOne(query, Restaurant.class, this.collectionName);
     }
 
 }

@@ -33,7 +33,7 @@
                         <td>${(x.createTime?date)!}</td>
                         <td>
                             <button type="button" class="btn btn-primary">编辑</button>
-                            <button type="button" class="btn btn-danger">删除</button>
+                            <button type="button" class="btn btn-danger" onclick="restaurantScript.deleteRest('${(x.restaurantId)!}')">删除</button>
                         </td>
                     </tr>
                 </#list>

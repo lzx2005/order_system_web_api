@@ -37,6 +37,11 @@ public enum ServiceResultEnum {
     ORDER_OVER(11001,"订单已经结束"),
     DISH_HAS_NO_MORE(11002,"该菜品已经删除完了"),
 
+    //餐厅相关
+    DELETE_RESTAURANT_FAILED(12000,"删除餐厅失败"),
+    CANT_FIND_RESTAURANT(12001,"找不到餐厅"),
+    CANT_FIND_USER_RESTAURANT(12002,"找不到餐厅，或者该餐厅不属于该用户"),
+
     ;
     private int code;
     private String msg;

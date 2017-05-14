@@ -135,6 +135,50 @@ var restaurantScript = {
                 }
             }
         );
+    },
+    deleteRest:function (restaurantId) {
+        swal({
+                title: "确认删除?",
+                text: "确认删除这个餐厅吗？删除后无法恢复",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#DD6B55",
+                confirmButtonText: "删除",
+                cancelButtonText:"取消",
+                closeOnConfirm: false
+            },
+            function(){
+                $.post("/console/rest/restaurant/delete", {
+                        restaurantId: restaurantId
+                    },
+                    function (data) {
+                        if(data['code']==0){
+                            console.log("成功");
+                            swal({
+                                    title: "删除成功",
+                                    text: "删除成功！",
+                                    type: "success",
+                                    confirmButtonText: "确定",
+                                    closeOnConfirm: true
+                                },
+                                function(){
+                                    window.location.reload();
+                                });
+                        }else{
+                            console.log("失败");
+                            swal({
+                                    title: "删除失败",
+                                    text: "删除失败！"+data['msg'],
+                                    type: "error",
+                                    confirmButtonText: "确定",
+                                    closeOnConfirm: true
+                                },
+                                function(){
+                                });
+                        }
+                    }
+                );
+            });
     }
 }
 
