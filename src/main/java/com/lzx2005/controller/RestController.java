@@ -90,7 +90,9 @@ public class RestController {
 
     @RequestMapping(value = "/order/create",method = RequestMethod.POST)
     @ResponseBody
-    public String createOrder(@RequestBody Order order){
+    public String createOrder(HttpServletRequest request,@RequestBody Order order){
+        int userId = (int)request.getAttribute("userId");
+        order.setUserId(userId);
         return orderService.createOrder(order).toString();
     }
 }
