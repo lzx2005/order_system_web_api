@@ -23,17 +23,6 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-    @RequestMapping(value = "/create",method = RequestMethod.POST)
-    @ResponseBody
-    public String createOrder(HttpServletRequest request){
-        Integer userId = (Integer)request.getAttribute("userId");
-        if(userId==null){
-            return ServiceResultEnum.NEED_PARAMS.toString();
-        }
-        ServiceResult order = orderService.createOrder(userId);
-        return order.toString();
-    }
-
 
     @RequestMapping(value = "/dish/add",method = RequestMethod.POST)
     @ResponseBody
