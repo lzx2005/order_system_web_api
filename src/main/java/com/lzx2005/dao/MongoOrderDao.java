@@ -2,6 +2,7 @@ package com.lzx2005.dao;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lzx2005.entity.Dish;
+import com.lzx2005.entity.Order;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.mongodb.WriteResult;
 import org.slf4j.Logger;
@@ -26,10 +27,14 @@ public class MongoOrderDao {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Deprecated
     public void createOrder(JSONObject jsonObject){
         mongoTemplate.insert(jsonObject,"order");
     }
 
+    public void createOrder(Order order){
+        mongoTemplate.insert(order,"order");
+    }
     /**
      * 找到用户当前的订单
      * */

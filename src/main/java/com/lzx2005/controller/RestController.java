@@ -2,17 +2,16 @@ package com.lzx2005.controller;
 
 
 import com.lzx2005.dto.ServiceResult;
+import com.lzx2005.entity.Order;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.service.MenuService;
+import com.lzx2005.service.OrderService;
 import com.lzx2005.service.RestaurantService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -30,6 +29,9 @@ public class RestController {
 
     @Autowired
     private RestaurantService restaurantService;
+
+    @Autowired
+    private OrderService orderService;
 
     @RequestMapping(value = "/restaurant/near",method = RequestMethod.GET)
     @ResponseBody
@@ -85,4 +87,10 @@ public class RestController {
         return menuService.getAllDishByRestId(restId).toString();
     }
 
+
+    @RequestMapping(value = "/order/create",method = RequestMethod.POST)
+    @ResponseBody
+    public String createOrder(@RequestBody Order order){
+        return orderService.createOrder(order).toString();
+    }
 }

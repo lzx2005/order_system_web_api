@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lzx2005.dao.MongoOrderDao;
 import com.lzx2005.dto.ServiceResult;
 import com.lzx2005.entity.Dish;
+import com.lzx2005.entity.Order;
 import com.lzx2005.enums.ServiceResultEnum;
 import com.lzx2005.repository.DishRepository;
 import com.lzx2005.service.OrderService;
@@ -31,20 +32,9 @@ public class OrderServiceImpl implements OrderService {
     private DishRepository dishRepository;
 
     @Override
-    public ServiceResult createOrder(int userId) {
-        JSONObject order = new JSONObject();
-        order.put("userId",userId);
-        String orderId = SUID.getUUID();
-        order.put("orderId", orderId);
-        order.put("createTime", LocalDateTime.now());
-        order.put("orderStatus",1);
-
+    public ServiceResult createOrder(Order order) {
         mongoOrderDao.createOrder(order);
-        JSONObject jsonObject = mongoOrderDao.findOrderByOrderId(orderId);
-        if(jsonObject!=null){
-            return ServiceResultEnum.SUCCESS.toServiceResult().setData(jsonObject);
-        }
-        return ServiceResultEnum.DB_ERROR.toServiceResult();
+        return ServiceResultEnum.SUCCESS.toServiceResult();
     }
 
     @Override
