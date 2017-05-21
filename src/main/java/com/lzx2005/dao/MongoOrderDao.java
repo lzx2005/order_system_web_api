@@ -38,25 +38,20 @@ public class MongoOrderDao {
     /**
      * 找到用户当前的订单
      * */
-    public List<JSONObject> findActivityOrderByUserId(int userId){
-        ArrayList<Integer> activityStatus = new ArrayList<>();
-        activityStatus.add(1);
-        activityStatus.add(2);
-        activityStatus.add(3);
-        activityStatus.add(4);
-        Criteria in = Criteria.where("userId").is(userId).and("orderStatus").in(activityStatus);
+    public List<Order> findActivityOrderByUserId(int userId){
+        Criteria in = Criteria.where("userId").is(userId).and("status").is(0);
         Query query = Query.query(in);
-        return mongoTemplate.find(query, JSONObject.class, "order");
+        return mongoTemplate.find(query, Order.class, "order");
     }
 
 
     /**
      * 根据订单ID找到订单
      * */
-    public JSONObject findOrderByOrderId(String orderId){
+    public Order findOrderByOrderId(String orderId){
         Criteria criteria = Criteria.where("orderId").is(orderId);
         Query query = Query.query(criteria);
-        return mongoTemplate.findOne(query, JSONObject.class, "order");
+        return mongoTemplate.findOne(query, Order.class, "order");
     }
 
     public JSONObject addDishToOrder(String orderId, Dish dish){

@@ -36,6 +36,8 @@ public enum ServiceResultEnum {
     CANT_FIND_ORDER(11000,"找不到订单"),
     ORDER_OVER(11001,"订单已经结束"),
     DISH_HAS_NO_MORE(11002,"该菜品已经删除完了"),
+    HAS_ACTIVE_ORDER(11003,"有未完成的订单"),
+    CREATE_ORDER_FAILED(11004,"创建订单失败"),
 
     //餐厅相关
     DELETE_RESTAURANT_FAILED(12000,"删除餐厅失败"),

@@ -33,51 +33,18 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ServiceResult createOrder(Order order) {
+        List<Order> orders = mongoOrderDao.findActivityOrderByUserId(order.getUserId());
+        if(orders.size()>0){
+            return ServiceResultEnum.HAS_ACTIVE_ORDER.toServiceResult();
+        }
         mongoOrderDao.createOrder(order);
+        //Order orderSaved = mongoOrderDao.findOrderByOrderId(order.getOrderId());
+        //if(orderSaved==null){
+        //    return ServiceResultEnum.CREATE_ORDER_FAILED.toServiceResult();
+        //}
         return ServiceResultEnum.SUCCESS.toServiceResult();
     }
 
-    @Override
-    public ServiceResult addDish(String orderId, long dishId) {
-        JSONObject order = mongoOrderDao.findOrderByOrderId(orderId);
-        if(order==null){
-            return ServiceResultEnum.CANT_FIND_ORDER.toServiceResult();
-        }
-        Dish dish = dishRepository.findOne(dishId);
-        if(dish==null){
-            return ServiceResultEnum.DISH_IS_NOT_EXIST.toServiceResult();
-        }
-
-        JSONObject jsonObject = mongoOrderDao.addDishToOrder(orderId, dish);
-        return ServiceResultEnum.SUCCESS.toServiceResult();
-    }
-
-    @Override
-    public ServiceResult removeDish(String orderId, long dishId) {
-        JSONObject order = mongoOrderDao.findOrderByOrderId(orderId);
-        if(order==null){
-            return ServiceResultEnum.CANT_FIND_ORDER.toServiceResult();
-        }
-
-        Dish dish = dishRepository.findOne(dishId);
-        JSONObject jsonObject = mongoOrderDao.removeDishFromOrder(orderId, dish);
-        if(jsonObject!=null){
-            logger.info(jsonObject.toString());
-        }
-        return ServiceResultEnum.SUCCESS.toServiceResult();
-    }
-
-    @Override
-    public ServiceResult submitOrder(String orderId) {
-        JSONObject jsonObject = mongoOrderDao.submitOrder(orderId);
-        return ServiceResultEnum.SUCCESS.toServiceResult();
-    }
-
-    @Override
-    public ServiceResult cookerFinishOrder(String orderId) {
-        JSONObject jsonObject = mongoOrderDao.cookFinish(orderId);
-        return ServiceResultEnum.SUCCESS.toServiceResult();
-    }
 
     @Override
     public ServiceResult payOrder(String orderId) {
@@ -85,9 +52,4 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
-    @Override
-    public ServiceResult findByUserId(int userId) {
-        List<JSONObject> activityOrderByUserId = mongoOrderDao.findActivityOrderByUserId(userId);
-        return ServiceResultEnum.SUCCESS.toServiceResult().setData(activityOrderByUserId);
-    }
 }
