@@ -37,6 +37,12 @@ public class RestController {
         return restaurantService.getNearRestaurant(lng,lat,length).toString();
     }
 
+    @RequestMapping(value = "/restaurant/info",method = RequestMethod.GET)
+    @ResponseBody
+    public String getRestaurantById(String restaurantId){
+        return restaurantService.findByRestaurentId(restaurantId).toString();
+    }
+
     @RequestMapping(value = "/dish/create",method = RequestMethod.POST)
     @ResponseBody
     public String createDish(HttpServletRequest request,
