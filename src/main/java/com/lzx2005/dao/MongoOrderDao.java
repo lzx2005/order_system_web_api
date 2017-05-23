@@ -38,10 +38,10 @@ public class MongoOrderDao {
     /**
      * 找到用户当前的订单
      * */
-    public List<Order> findActivityOrderByUserId(int userId){
+    public Order findActivityOrderByUserId(int userId){
         Criteria in = Criteria.where("userId").is(userId).and("status").is(0);
         Query query = Query.query(in);
-        return mongoTemplate.find(query, Order.class, "order");
+        return mongoTemplate.findOne(query, Order.class, "order");
     }
 
 

@@ -95,4 +95,12 @@ public class RestController {
         order.setUserId(userId);
         return orderService.createOrder(order).toString();
     }
+
+
+    @RequestMapping(value = "/order/find",method = RequestMethod.GET)
+    @ResponseBody
+    public String findOrder(HttpServletRequest request){
+        int userId = (int)request.getAttribute("userId");
+        return orderService.findActivityOrder(userId).toString();
+    }
 }

@@ -16,6 +16,13 @@ public interface OrderService {
 
 
     /**
+     * 查找订单
+     * @param userId
+     * @return
+     */
+    ServiceResult findActivityOrder(int userId);
+
+    /**
      * 付款
      * */
     ServiceResult payOrder(String orderId);

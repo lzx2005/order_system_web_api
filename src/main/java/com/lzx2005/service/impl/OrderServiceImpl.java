@@ -33,8 +33,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public ServiceResult createOrder(Order order) {
-        List<Order> orders = mongoOrderDao.findActivityOrderByUserId(order.getUserId());
-        if(orders.size()>0){
+        Order orders = mongoOrderDao.findActivityOrderByUserId(order.getUserId());
+        if(orders!=null){
             return ServiceResultEnum.HAS_ACTIVE_ORDER.toServiceResult();
         }
         mongoOrderDao.createOrder(order);
@@ -43,6 +43,16 @@ public class OrderServiceImpl implements OrderService {
         //    return ServiceResultEnum.CREATE_ORDER_FAILED.toServiceResult();
         //}
         return ServiceResultEnum.SUCCESS.toServiceResult();
+    }
+
+    @Override
+    public ServiceResult findActivityOrder(int userId) {
+        Order order = mongoOrderDao.findActivityOrderByUserId(userId);
+        if(order!=null){
+            return ServiceResultEnum.SUCCESS.toServiceResult().setData(order);
+        }else{
+            return ServiceResultEnum.CANT_FIND_ACTIVE_ORDER.toServiceResult();
+        }
     }
 
 
