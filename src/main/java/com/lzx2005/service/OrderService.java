@@ -25,6 +25,6 @@ public interface OrderService {
     /**
      * 付款
      * */
-    ServiceResult payOrder(String orderId);
+    ServiceResult payOrder(int userId);
 
 }

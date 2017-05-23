@@ -44,6 +44,15 @@ public class MongoOrderDao {
         return mongoTemplate.findOne(query, Order.class, "order");
     }
 
+    public int payOrder(int userId){
+        Criteria in = Criteria.where("userId").is(userId).and("status").is(0);
+        Query query = Query.query(in);
+
+        Update update = Update.update("status",1);
+
+        WriteResult order = mongoTemplate.upsert(query, update, "order");
+        return order.getN();
+    }
 
     /**
      * 根据订单ID找到订单

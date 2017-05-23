@@ -57,9 +57,14 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public ServiceResult payOrder(String orderId) {
-        //todo 支付接口暂时不考虑
-        return null;
+    public ServiceResult payOrder(int userId) {
+        //todo 暂时无法对接支付宝
+        int i = mongoOrderDao.payOrder(userId);
+        if(i>0){
+            return ServiceResultEnum.SUCCESS.toServiceResult().setMsg("支付成功");
+        }else{
+            return ServiceResultEnum.PAY_FAILED.toServiceResult();
+        }
     }
 
 }

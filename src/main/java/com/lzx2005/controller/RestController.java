@@ -103,4 +103,12 @@ public class RestController {
         int userId = (int)request.getAttribute("userId");
         return orderService.findActivityOrder(userId).toString();
     }
+
+
+    @RequestMapping(value = "/order/pay",method = RequestMethod.POST)
+    @ResponseBody
+    public String payOrder(HttpServletRequest request){
+        int userId = (int)request.getAttribute("userId");
+        return orderService.payOrder(userId).toString();
+    }
 }

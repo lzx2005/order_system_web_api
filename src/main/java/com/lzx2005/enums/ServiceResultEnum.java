@@ -39,6 +39,7 @@ public enum ServiceResultEnum {
     HAS_ACTIVE_ORDER(11003,"有未完成的订单"),
     CREATE_ORDER_FAILED(11004,"创建订单失败"),
     CANT_FIND_ACTIVE_ORDER(11005,"当前暂未有正在进行的订单"),
+    PAY_FAILED(11006,"支付失败"),
 
     //餐厅相关
     DELETE_RESTAURANT_FAILED(12000,"删除餐厅失败"),
